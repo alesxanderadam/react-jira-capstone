@@ -1,6 +1,7 @@
 .header {
-    background-color: #fff;
+    background-color: #fff !important;
     height: 70px;
+    z-index: 1000;
 }
 
 
@@ -33,6 +34,7 @@
 .sticky--top {
     top: 0;
 }
+
 
 .nav-link {
     color: #1D4ED8 !important;

@@ -1,4 +1,4 @@
-import { Button, Divider, Dropdown, Space, Tooltip, theme } from 'antd';
+import { Dropdown, Space } from 'antd';
 import { SettingOutlined } from '@ant-design/icons';
 import { NavLink } from 'react-router-dom'
 import '../../assets/scss/home-template.scss'
@@ -15,6 +15,7 @@ const Header = () => {
     const $$header = document.querySelector(".js-header");
 
     window.addEventListener("scroll", throttle(onScroll, 300));
+
 
     const items = [
         {
