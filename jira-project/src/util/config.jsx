@@ -1,39 +1,62 @@
 import { history } from '../app';
 import axios from "axios"
-const TOKEN_CYBER = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJGcm9udGVuZCA3MyIsIkhldEhhblN0cmluZyI6IjE5LzA1LzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY4NDQ1NDQwMDAwMCIsIm5iZiI6MTY1OTg5MTYwMCwiZXhwIjoxNjg0NjAyMDAwfQ.49m9-EoDr6zr7UOk_79hfcvJWKI_s0Wy_g40ossfl9c'
+import { isExpired } from "react-jwt";
 
-export const DOMAIN: string = 'https://shop.cyberlearn.vn'
-export const ACCESS_TOKEN: string = "accessToken"
-export const USER_LOGIN: string = "userLogin"
-export const USER_PROFILE: string = "userProfile"
+export const TOKEN_CYBER = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJGcm9udGVuZCA3MyIsIkhldEhhblN0cmluZyI6IjE5LzA1LzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY4NDQ1NDQwMDAwMCIsIm5iZiI6MTY1OTg5MTYwMCwiZXhwIjoxNjg0NjAyMDAwfQ.49m9-EoDr6zr7UOk_79hfcvJWKI_s0Wy_g40ossfl9c'
+export const DOMAIN = 'https://jiranew.cybersoft.edu.vn/'
+export const ACCESS_TOKEN = "accessToken"
+export const USER_LOGIN = "userLogin"
+export const USER_PROFILE = "userProfile"
+export const USER_REGISTER = "userRegister";
 export const http = axios.create({
     baseURL: DOMAIN,
     timeout: 30000,
 });
-http.interceptors.response.use((response) => {
-    return response
+http.interceptors.request.use((response) => {
+    
+    response.headers = {
+        ...response.headers,
+        Authorization: `${getStore(ACCESS_TOKEN)}`,
+        TokenCybersoft: TOKEN_CYBER,
+      };
+      return response;
 }, (error) => {
-    try {
-        if (error.response?.status === 400 || error.response?.status === 404)
-            history.push
-        return Promise.reject(error)
-    } catch (err) {
-        console.log(err)
-    }
+    return Promise.reject(error)
 })
 
+http.interceptors.response.use(
+    (result)=>{
+        return result;
+    },
+    (error)=>{
+        if (error.response?.status === 400 || error.response?.status === 404)
+            {history.push("/")}
+        if (error.response?.status === 401 || error.response?.status === 403) {
+            const isMyTokenExpired = isExpired(getStore(ACCESS_TOKEN));
+            if (isMyTokenExpired) {
+                alert("Hết phiên đăng nhập yêu cầu đăng nhập lại !");
+                clearStorage(ACCESS_TOKEN);
+                clearStorage(USER_LOGIN);
+                window.location.href = "/login";
+            }
+            history.push("/login");
+        }
+        return Promise.reject(error)
+    }
+)
 
-export const settings = {
-    setStorageJson: (name: string, data: any): void => {
+
+export const {setStorage, setStorageJson, getStorageJson, getStore, setCookieJson, getCookieJson, setCookie, getCookie, clearStorage, eraseCookie} = {
+    setStorageJson: (name, data)=> {
         data = JSON.stringify(data);
         localStorage.setItem(name, data);
     },
-    setStorage: (name: string, data: string): void => {
+    setStorage: (name, data) => {
         localStorage.setItem(name, data)
     },
-    getStorageJson: (name: string): any | undefined => {
+    getStorageJson: (name) => {
         if (localStorage.getItem(name)) {
-            const dataStore: string | undefined | null = localStorage.getItem(name);
+            const dataStore = localStorage.getItem(name);
             if (typeof dataStore == 'string') {
                 const data = JSON.parse(dataStore);
                 return data;
@@ -42,14 +65,14 @@ export const settings = {
         }
         return;
     },
-    getStore: (name: string): string | null | undefined | boolean | any => {
+    getStore: (name) => {
         if (localStorage.getItem(name)) {
-            const data: string | null | undefined = localStorage.getItem(name);
+            const data= localStorage.getItem(name);
             return data;
         }
         return;
     },
-    setCookieJson: (name: string, value: any, days: number): void => {
+    setCookieJson: (name, value, days) => {
         var expires = "";
         if (days) {
             var date = new Date();
@@ -59,7 +82,7 @@ export const settings = {
         value = JSON.stringify(value);
         document.cookie = name + "=" + (value || "") + expires + "; path=/";
     },
-    getCookieJson: (name: string): any => {
+    getCookieJson: (name) => {
         var nameEQ = name + "=";
         var ca = document.cookie.split(';');
         for (var i = 0; i < ca.length; i++) {
@@ -69,7 +92,7 @@ export const settings = {
         }
         return null;
     },
-    setCookie: (name: string, value: string, days: number): void => {
+    setCookie: (name, value, days)  => {
         var expires = "";
         if (days) {
             var date = new Date();
@@ -78,7 +101,7 @@ export const settings = {
         }
         document.cookie = name + "=" + (value || "") + expires + "; path=/";
     },
-    getCookie: (name: string): string | null => {
+    getCookie: (name)=> {
         var nameEQ = name + "=";
         var ca = document.cookie.split(';');
         for (var i = 0; i < ca.length; i++) {
@@ -88,12 +111,14 @@ export const settings = {
         }
         return null;
     },
-    eraseCookie: (name: string): void => {
+    eraseCookie: (name) => {
         document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     },
-    clearStorage: (name: string) => {
+    clearStorage: (name ) => {
         localStorage.removeItem(name);
     }
 
 }
+
+
 
