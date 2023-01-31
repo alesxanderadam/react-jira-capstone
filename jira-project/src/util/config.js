@@ -1,10 +1,10 @@
 import { history } from '../app';
 import axios from "axios"
-import { PageConstant } from '../common/page.constant';
 const TOKEN_CYBER = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJGcm9udGVuZCA3MyIsIkhldEhhblN0cmluZyI6IjE5LzA1LzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY4NDQ1NDQwMDAwMCIsIm5iZiI6MTY1OTg5MTYwMCwiZXhwIjoxNjg0NjAyMDAwfQ.49m9-EoDr6zr7UOk_79hfcvJWKI_s0Wy_g40ossfl9c'
 
 export const DOMAIN = 'https://jiranew.cybersoft.edu.vn'
 export const ACCESS_TOKEN = "accessToken"
+export const USER_LOGIN = 'userLogin'
 export const http = axios.create({
     baseURL: DOMAIN,
     timeout: 30000,
