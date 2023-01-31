@@ -41,7 +41,7 @@ const Header = () => {
         },
     ];
     return (
-        <header class="header sticky sticky--top js-header">
+        <header className="header sticky sticky--top js-header">
             <nav className="navbar navbar-expand-lg bg-light">
                 <div className="container-fluid">
                     <NavLink className='pe-4'><img src='./assets/img/shiba.png' alt='...' className='jira-logo' style={{ borderRadius: '100rem', width: '50px', height: '50px' }}></img></NavLink>

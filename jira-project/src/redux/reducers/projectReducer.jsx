@@ -23,7 +23,6 @@ export const getAllProjectApi = () => {
     return async (dispatch) => {
         try {
             const result = await http.get('/api/Project/getAllProject')
-            console.log(result.data.content)
             dispatch(getAllProjectAction(result.data.content))
         } catch (err) {
             console.log(err)

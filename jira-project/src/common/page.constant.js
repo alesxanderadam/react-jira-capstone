@@ -1,4 +1,5 @@
 export const PageConstant = {
     project: '/project',
-    login: '/login'
+    login: '/login',
+    register: '/register'
 }

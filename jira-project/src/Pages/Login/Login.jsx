@@ -1,7 +1,9 @@
 import { Button, Col, Form, Input, Row } from 'antd';
 import { MDBContainer, MDBCol, MDBRow, MDBBtn, MDBIcon, MDBCheckbox } from 'mdb-react-ui-kit';
 import { useDispatch } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import '../../assets/scss/login.scss'
+import { PageConstant } from '../../common/page.constant';
 import { userLoginApi } from '../../redux/reducers/userReducer';
 const Login = () => {
   const dispatch = useDispatch()
@@ -85,9 +87,6 @@ const Login = () => {
                 </Form.Item>
               </Col>
             </Row>
-
-
-
           </Form>
 
           <div className="d-flex justify-content-between mb-4">
@@ -101,7 +100,7 @@ const Login = () => {
             }}>
               Login
             </Button>
-            <p className="small fw-bold mt-2 pt-1 mb-2">Don't have an account? <a href="#!" className="link-danger">Register</a></p>
+            <p className="small fw-bold mt-2 pt-1 mb-2">Don't have an account? <NavLink to={PageConstant.register}>Register</NavLink></p>
           </div>
 
         </MDBCol>
