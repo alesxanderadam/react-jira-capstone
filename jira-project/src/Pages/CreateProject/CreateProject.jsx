@@ -81,9 +81,7 @@ const CreateProject = () => {
                             
                             return <option className='optionCate' key={index} value={item.id}>{item.projectCategoryName}</option> 
                            
-                        })
-                                        
-                            }
+                        })}
                         {/* <option value="1">Du an web</option>
                         <option value="2">Du an phan mem</option>
                         <option value="3">Du an di dong</option> */}

@@ -5,6 +5,7 @@ import '../../assets/scss/home-template.scss'
 import throttle from "https://cdn.skypack.dev/lodash@4/throttle";
 import { ACCESS_TOKEN, clearStorage, USER_LOGIN, USER_PROFILE } from '../../util/config';
 import { history } from '../../app';
+import { PageConstant } from '../../commom/page.constant';
 
 const Header = () => {
     function onScroll() {
@@ -77,8 +78,8 @@ const Header = () => {
                                     Project
                                 </NavLink>
                                 <ul className="dropdown-menu" style={{ width: '260px' }}>
-                                    <li><NavLink className="dropdown-item" href="#">View all projects</NavLink></li>
-                                    <li><NavLink className="dropdown-item" to="./createProject">Create project</NavLink></li>
+                                    <li><NavLink className="dropdown-item" to={`${PageConstant.project}`}>View all projects</NavLink></li>
+                                    <li><NavLink className="dropdown-item" to="/createProject">Create project</NavLink></li>
                                 </ul>
                             </li>
                             <li className="nav-item dropdown">
