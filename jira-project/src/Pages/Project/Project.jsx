@@ -1,15 +1,16 @@
-import React, { useEffect } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { PageConstant } from '../../common/page.constant'
 import '../../assets/scss/project.scss'
-import { Button, Input, Table } from 'antd'
+import { Button, Input, message, Modal, Table } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllProjectApi } from '../../redux/reducers/projectReducer'
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
+import { delProjectApi, getAllProjectApi } from '../../redux/reducers/projectReducer'
+import { DeleteOutlined, EditOutlined, ExclamationCircleFilled } from '@ant-design/icons'
 
 export default function Project() {
   const navigate = useNavigate();
   const dispatch = useDispatch()
+  const [loadding, setLoadding] = useState(true)
   const { allProject } = useSelector(state => state.projectReducer)
   const { Search } = Input;
   const onSearch = (value) => {
@@ -55,7 +56,7 @@ export default function Project() {
       sortDirections: ['descend'],
       render: (data) => (
         <>
-          {data.members.map((item, index) => {
+          {data.members.map((item) => {
             return <>
               {item.name}
             </>
@@ -73,7 +74,7 @@ export default function Project() {
             <Button style={{ fontSize: '12px', padding: '0px 15px 1px 14px', lineHeight: '14px', height: '36px' }} className="mx-2 table-action-button" onClick={() => { navigate((`${PageConstant.project}/${data.id}/edit`)); }} type="default">
               <EditOutlined />
             </Button>
-            <Button style={{ fontSize: '12px', padding: '0px 14px 1px 14px', lineHeight: '14px', height: '36px' }} className="table-action-button">
+            <Button style={{ fontSize: '12px', padding: '0px 14px 1px 14px', lineHeight: '14px', height: '36px' }} onClick={() => { showDeleteConfirm(data.id); }} className="table-action-button">
               <DeleteOutlined style={{ color: '#e90000' }} />
             </Button>
           </div>
@@ -82,9 +83,28 @@ export default function Project() {
     },
   ];
 
+  const { confirm } = Modal;
+  const showDeleteConfirm = (id) => {
+    confirm({
+      title: "Delete project",
+      icon: <ExclamationCircleFilled />,
+      content: `Project Id: ${id} id deleting? `,
+      okText: "Đồng ý",
+      okType: "primary",
+      cancelText: "Không",
+      onOk() {
+        message.success('Delete success')
+        dispatch(delProjectApi(id))
+      },
+      onCancel() {
+        console.log("Hủy");
+      },
+    });
+  };
+
   useEffect(() => {
     dispatch(getAllProjectApi())
-  }, [])
+  }, [allProject])
 
 
 

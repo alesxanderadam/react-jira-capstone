@@ -3,18 +3,19 @@ import { SettingOutlined } from '@ant-design/icons';
 import { NavLink } from 'react-router-dom'
 import '../../assets/scss/home-template.scss'
 import throttle from "https://cdn.skypack.dev/lodash@4/throttle";
+import { PageConstant } from '../../common/page.constant';
 const Header = () => {
-    function onScroll() {
-        if (window.pageYOffset) {
-            $$header.classList.add("is-active");
-        } else {
-            $$header.classList.remove("is-active");
-        }
-    }
+    // function onScroll() {
+    //     if (window.pageYOffset) {
+    //         $$header.classList.add("is-active");
+    //     } else {
+    //         $$header.classList.remove("is-active");
+    //     }
+    // }
 
-    const $$header = document.querySelector(".js-header");
+    // const $$header = document.querySelector(".js-header");
 
-    window.addEventListener("scroll", throttle(onScroll, 300));
+    // window.addEventListener("scroll", throttle(onScroll, 300));
 
 
     const items = [
@@ -55,8 +56,8 @@ const Header = () => {
                                     Project
                                 </NavLink>
                                 <ul className="dropdown-menu" style={{ width: '260px' }}>
-                                    <li><NavLink className="dropdown-item" href="#">View all projects</NavLink></li>
-                                    <li><NavLink className="dropdown-item" href="#">Create project</NavLink></li>
+                                    <li><NavLink to={`${PageConstant.project}`} className="dropdown-item" href="#">View all projects</NavLink></li>
+                                    <li><NavLink to={`${PageConstant.project}/new`} className="dropdown-item" href="#">Create project</NavLink></li>
                                 </ul>
                             </li>
                             <li className="nav-item dropdown">
