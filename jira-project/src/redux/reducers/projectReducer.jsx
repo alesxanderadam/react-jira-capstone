@@ -41,7 +41,6 @@ export const getAllProjectApi = () => {
             const result = await http.get('/api/Project/getAllProject')
             dispatch(getAllProjectAction(result.data.content))
         } catch (err) {
-            console.log(err)
             return;
         }
     }
@@ -53,7 +52,7 @@ export const getProjectDetailApi = (id) => {
             const result = await http.get(`/api/Project/getProjectDetail?id=${id}`)
             dispatch(getDetailProjectAction(result.data.content))
         } catch (err) {
-            console.log(err)
+            return;
         }
     }
 }
@@ -63,8 +62,9 @@ export const addProjectApi = (project) => {
         try {
             const result = await http.post('/api/Project/createProject', project)
             dispatch(addProjectAction(result.data.content))
+            message.success(result.data.message)
         } catch (err) {
-            console.log(err)
+            return;
         }
     }
 }
@@ -76,7 +76,7 @@ export const editProjectApi = (id, updateProject) => {
             dispatch(editProjectAction(reuslt.data.content))
             message.success(`${reuslt.data.message}`)
         } catch (err) {
-            console.log(err)
+            return;
         }
     }
 }
@@ -88,7 +88,7 @@ export const delProjectApi = (id) => {
             dispatch(delProjectAction(result.data.content))
         }
         catch (err) {
-            console.log(err)
+            return;
         }
     }
 }

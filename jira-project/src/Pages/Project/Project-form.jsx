@@ -18,11 +18,9 @@ const ProjectForm = ({ project, submitted }) => {
             values.id = project.id
             values.creator = project.creator.id
             submitted(values)
-            console.log('if', values)
         } else {
             values.alilas = ''
             submitted(values)
-            console.log("else", values)
         }
     }
 
@@ -58,7 +56,7 @@ const ProjectForm = ({ project, submitted }) => {
                             <Input />
                         </Form.Item>
 
-                        <Form.Item name='categoryId' label="Project category" rules={[{ required: true }]}>
+                        <Form.Item name='categoryId' label="Project category" rules={[{ required: true }]} initialValue={project.projectCategory.name}>
                             <Select options={Category?.map((item) => {
                                 return {
                                     label: `${item.projectCategoryName}`,
