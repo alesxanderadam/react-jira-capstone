@@ -1,16 +1,17 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { PageConstant } from '../../common/page.constant'
 import '../../assets/scss/project.scss'
-import { Button, Input, message, Modal, Table } from 'antd'
+import { Avatar, Button, Input, message, Modal, Popover, Table } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import { delProjectApi, getAllProjectApi } from '../../redux/reducers/projectReducer'
 import { DeleteOutlined, EditOutlined, ExclamationCircleFilled } from '@ant-design/icons'
+import Title from 'antd/es/skeleton/Title'
+import { map } from 'lodash'
 
 export default function Project() {
   const navigate = useNavigate();
   const dispatch = useDispatch()
-  const [loadding, setLoadding] = useState(true)
   const { allProject } = useSelector(state => state.projectReducer)
   const { Search } = Input;
   const onSearch = (value) => {
@@ -39,7 +40,7 @@ export default function Project() {
       sortDirections: ['descend'],
     },
     {
-      title: 'Category name',
+      title: 'Creator',
       width: 250,
       sorter: (a, b) => a.categoryName.length - b.categoryName.length,
       sortDirections: ['descend'],
@@ -50,17 +51,29 @@ export default function Project() {
       )
     },
     {
-      title: 'Category name',
+      title: 'Members',
       width: 250,
-      sorter: (a, b) => a.categoryName.length - b.categoryName.length,
-      sortDirections: ['descend'],
       render: (data) => (
         <>
-          {data.members.map((item) => {
+          {data.members?.map((item) => {
+            const content = (
+              <div>
+                {item.name}
+              </div>
+            );
             return <>
-              {item.name}
+              <Popover content={content}>
+                <Avatar
+                  style={{ borderRadius: '100rem', width: '35px', height: '35px' }}
+                  className="shape-avatar me-1"
+                  shape="square"
+                  size={40}
+                  src={`${item.avatar}`}
+                ></Avatar>
+              </Popover>
             </>
           })}
+
         </>
       )
     },

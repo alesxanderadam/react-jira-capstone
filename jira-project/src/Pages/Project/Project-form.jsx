@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { PageConstant } from '../../common/page.constant';
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
 import { CKEditor } from '@ckeditor/ckeditor5-react'
-import { Row, Col, Card, Button, Input, Form, Select } from "antd";
+import { Button, Input, Form, Select } from "antd";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllCategoryApi } from '../../redux/reducers/category';
@@ -13,11 +13,17 @@ const ProjectForm = ({ project, submitted }) => {
     const [form] = Form.useForm();
     const [desscription, setDescription] = useState('')
     const onSubmit = (values) => {
-        values.alilas = ''
-        values.id = project.id
-        values.creator = project.creator.id
-        submitted(values)
-        console.log(values)
+        if (project) {
+            values.alilas = ''
+            values.id = project.id
+            values.creator = project.creator.id
+            submitted(values)
+            console.log('if', values)
+        } else {
+            values.alilas = ''
+            submitted(values)
+            console.log("else", values)
+        }
     }
 
     const validateMessages = {
@@ -41,7 +47,7 @@ const ProjectForm = ({ project, submitted }) => {
                     <Link to={`${PageConstant.project}`}>
                         <Button type="dashed" className="mx-3">Trở lại</Button>
                     </Link>
-                    <Button type="primary" onClick={() => { form.submit() }}> {project ? "Save" : "Add"} </Button>
+                    <Button type="primary" onClick={() => { form.submit() }}> {project ? "Edit" : "Add"} </Button>
 
                 </div>
             </div>
