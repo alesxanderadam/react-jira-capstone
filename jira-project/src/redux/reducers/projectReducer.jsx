@@ -60,7 +60,7 @@ export const getProjectDetailApi = (id) => {
 export const addProjectApi = (project) => {
     return async dispatch => {
         try {
-            const result = await http.post('/api/Project/createProject', project)
+            const result = await http.post('/api/Project/createProjectAuthorize', project)
             dispatch(addProjectAction(result.data.content))
             message.success(result.data.message)
         } catch (err) {
