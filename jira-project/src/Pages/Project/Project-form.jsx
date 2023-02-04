@@ -47,7 +47,7 @@ const ProjectForm = ({ project, submitted }) => {
                     Projects / New project
                 </div>
                 <div className='me-5'>
-                    <Link to={`${PageConstant.project}`}>
+                    <Link to='/'>
                         <Button type="dashed" className="mx-3">Trở lại</Button>
                     </Link>
                     <Button type="primary" onClick={() => { form.submit() }}> {project ? "Edit" : "Add"} </Button>

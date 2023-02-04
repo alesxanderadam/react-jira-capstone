@@ -1,8 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import axios from 'axios';
 import { history } from '../../app';
-
-import { getStore, http } from '../../util/config';
+import { settings, http } from '../../util/config';
 import { ACCESS_TOKEN, TOKEN_CYBER } from '../../util/config'
 
 const initialState = {
@@ -17,7 +16,6 @@ const taskReducer = createSlice({
     name: "taskReducer",
     initialState,
     reducers: {
-
         getStatusAction: (state, action) => {
             state.arrStatus = action.payload;
         },
@@ -33,17 +31,10 @@ const taskReducer = createSlice({
         createTaskAction: (state, action) => {
             state.createTask = action.payload
         }
-
-
     }
 });
 
-export const {
-    getStatusAction,
-    getPriorityAction,
-    getTaskTypeAction,
-    getUserByProjectIdAction,
-    createTaskAction } = taskReducer.actions
+export const { getStatusAction, getPriorityAction, getTaskTypeAction, getUserByProjectIdAction, createTaskAction } = taskReducer.actions
 
 export default taskReducer.reducer
 
@@ -71,12 +62,7 @@ export const getTaskTypeApi = () => {
 }
 export const getUserByProjectIdApi = (projectID) => {
     return async (dispatch) => {
-        const result = await axios.get(`https://jiranew.cybersoft.edu.vn/api/Users/getUserByProjectId?idProject=${projectID}`, {
-            headers: {
-                'Authorization': `Bearer ${getStore(ACCESS_TOKEN)}`,
-                'TokenCybersoft': TOKEN_CYBER,
-            }
-        });
+        const result = await http.get(`/api/Users/getUserByProjectId?idProject=${projectID}`)
         const action = getUserByProjectIdAction(result.data.content);
         dispatch(action)
     }
@@ -84,12 +70,7 @@ export const getUserByProjectIdApi = (projectID) => {
 export const createTaskApi = (newTask) => {
     return async (dispatch) => {
         try {
-            const result = await axios.post('https://jiranew.cybersoft.edu.vn/api/Project/createTask', newTask, {
-                headers: {
-                    'Authorization': `Bearer ${getStore(ACCESS_TOKEN)}`,
-                    'TokenCybersoft': TOKEN_CYBER,
-                }
-            });
+            const result = await http.post('/api/Project/createTask', newTask)
             const action = createTaskAction(result.data.content);
             dispatch(action)
             alert('Successfull')

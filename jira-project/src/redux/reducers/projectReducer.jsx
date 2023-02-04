@@ -102,7 +102,7 @@ export const delProjectApi = (id) => {
         try {
             const result = await http.delete(`/api/Project/deleteProject?projectId=${id}`)
             dispatch(delProjectAction(result.data.content))
-            dispatch(getAllProjectApi())
+            dispatch(getAllProjectApi());
         }
         catch (err) {
             return;

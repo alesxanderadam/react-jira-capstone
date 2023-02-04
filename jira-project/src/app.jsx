@@ -16,7 +16,7 @@ export default function App() {
         <HistoryRouter history={history}>
             <Routes>
                 <Route path='/' element={<HomeTemplate />}>
-                    <Route path={`${PageConstant.project}`} element={<Project />}></Route>
+                    <Route index element={<Project />}></Route>
                     <Route path={`${PageConstant.project}/new`} element={<ProjectAdd />}></Route>
                     <Route path={`${PageConstant.project}/:id/edit`} element={<ProjectEdit />}></Route>
                 </Route>

@@ -2,11 +2,10 @@ import { Dropdown, Space } from 'antd';
 import { SettingOutlined } from '@ant-design/icons';
 import { NavLink } from 'react-router-dom'
 import '../../assets/scss/home-template.scss'
-import throttle from "https://cdn.skypack.dev/lodash@4/throttle";
+// import throttle from "https://cdn.skypack.dev/lodash@4/throttle";
 import { PageConstant } from '../../common/page.constant';
-import { ACCESS_TOKEN, clearStorage, USER_LOGIN, USER_PROFILE } from '../../util/config';
+import { ACCESS_TOKEN, settings, USER_LOGIN } from '../../util/config';
 import { history } from '../../app';
-import { PageConstant } from '../../commom/page.constant';
 
 const Header = () => {
     // function onScroll() {
@@ -43,20 +42,19 @@ const Header = () => {
 
                 </div>
             ),
-            
+
         },
         {
             key: '3',
             label: (
                 <div>
-                    <NavLink className='navlink' style={{ textDecoration: 'none' }} 
-                    onClick={() => {
-                        clearStorage(ACCESS_TOKEN);
-                        clearStorage(USER_LOGIN);
-                        clearStorage(USER_PROFILE);
-                        history.push("/login");
-                        window.location.reload();
-                      }}
+                    <NavLink className='navlink' style={{ textDecoration: 'none' }}
+                        onClick={() => {
+                            settings.clearStorage(ACCESS_TOKEN);
+                            settings.clearStorage(USER_LOGIN);
+                            history.push(`${PageConstant.login}`);
+                            window.location.reload();
+                        }}
                     >
                         Log out
                     </NavLink>

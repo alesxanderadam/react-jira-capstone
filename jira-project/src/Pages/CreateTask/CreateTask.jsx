@@ -9,23 +9,15 @@ import { createTaskApi, getAllStatusApi, getPriorityApi, getTaskTypeApi, getUser
 import Select from 'react-select'
 const CreateTask = () => {
     const editorRef = useRef(null);
-    const { allProject} = useSelector(state => state.projectReducer)
-    const {arrStatus, arrPriority, arrTaskType, arrUserByProjectId } = useSelector(state => state.taskReducer)
+    const { allProject } = useSelector(state => state.projectReducer)
+    const { arrStatus, arrPriority, arrTaskType, arrUserByProjectId } = useSelector(state => state.taskReducer)
     const dispatch = useDispatch();
-
-    
-    
-    const log = () => {
-        if (editorRef.current) {
-            console.log(editorRef.current.getContent());
-        }
-    };
     let [state, setState] = useState({
         value: {
             listUserAsign: [],
             taskName: "",
             description: '',
-            statusId:'',
+            statusId: '',
             originalEstimate: 1,
             timeTrackingSpent: 1,
             timeTrackingRemaining: 1,
@@ -37,9 +29,9 @@ const CreateTask = () => {
         error: {
             taskName: ''
         },
-        userChoice:[]
+        userChoice: []
     })
-    
+
     const handleChange = (e) => {
         let { value, name } = e.target;
         let newValue = { ...state.value }
@@ -50,14 +42,14 @@ const CreateTask = () => {
             newValue['listUserAsign'].push(state.userChoice[i].value);
         }
         //check form rong
-        
+
         if (value.trim() === '') {
             newError[name] = 'TaskName is valid !';
         } else {
             newError[name] = '';
         }
-        
-        
+
+
         setState({
             ...state,
             value: newValue,
@@ -67,9 +59,9 @@ const CreateTask = () => {
     }
     const handleEditorChange = (content, editor) => {
         let name = 'description'
-        let newValue = {...state.value}
+        let newValue = { ...state.value }
 
-        newValue = {...newValue,[name]:content}
+        newValue = { ...newValue, [name]: content }
         setState({
             ...state,
             value: newValue
@@ -83,19 +75,19 @@ const CreateTask = () => {
         dispatch(getTaskTypeApi());
         // if(state.value.projectId!==''){
         //     dispatch(getUserByProjectIdApi(state.value.projectId))
-          
+
         // }
         dispatch(getUserByProjectIdApi(state.value.projectId))
     }, [state.value.projectId])
-    
+
     let options = [];
     for (let i = 0; i < arrUserByProjectId.length; i++) {
         options.push({
             label: arrUserByProjectId[i].name,
-            value:arrUserByProjectId[i].userId,
+            value: arrUserByProjectId[i].userId,
         });
     }
-    const handleSubmit=()=>{
+    const handleSubmit = () => {
         const action = createTaskApi(state.value);
 
         dispatch(action);
@@ -103,8 +95,7 @@ const CreateTask = () => {
 
     }
     return (
-        <div >
-
+        <div>
             <div className="modal fade" id="exampleModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog" style={{ marginRight: '0', maxWidth: '1000px' }}>
                     <div className="modal-content">
@@ -121,7 +112,7 @@ const CreateTask = () => {
                                         <div className="mb-3">
                                             <label className="form-element-label" htmlFor="field-be1h8i-ll2hpg-q4efzm-nfjj1e-udkw5r">Project</label>
                                             <select name='projectId' className="form-select" aria-label="Default select example" >
-                                                {allProject.map((item, index) => {
+                                                {allProject?.map((item, index) => {
                                                     return <option key={index} value={item.id}>{item.projectName}</option>
                                                 })}
                                                 {/* <option value="1">One</option>
@@ -133,7 +124,7 @@ const CreateTask = () => {
                                         {/* task name */}
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Task name</label>
-                                            <input value={state.value.taskName} required type="email" className="form-control" id="exampleFormControlInput1" placeholder="Task name" name="taskName"  />
+                                            <input value={state.value.taskName} required type="email" className="form-control" id="exampleFormControlInput1" placeholder="Task name" name="taskName" />
                                             <span className='text-danger'><i>{state.error.taskName}</i></span>
                                         </div>
                                         {/* status */}
@@ -182,7 +173,7 @@ const CreateTask = () => {
                                                     return <option key={index} value={item.userId}>{item.name}</option>
                                                 })}
                                             </select> */}
-                                            
+
                                             <Select
                                                 isMulti
                                                 name="listUserAsign"
@@ -191,7 +182,7 @@ const CreateTask = () => {
                                                 isClearable={false}
                                                 options={options}
                                                 closeMenuOnSelect={true}
-                                                onChange={(choice)=>{
+                                                onChange={(choice) => {
                                                     setState({
                                                         ...state,
                                                         userChoice: choice
@@ -230,7 +221,7 @@ const CreateTask = () => {
 
                                             <Editor
                                                 name='description'
-                                                
+
                                                 onEditorChange={handleEditorChange}
                                                 apiKey='gzd8t3qd2hvhzh2yzg4gerpdggkgeqc4rwl9qsi3s4e4zq6s'
                                                 onInit={(evt, editor) => editorRef.current = editor}
@@ -257,7 +248,7 @@ const CreateTask = () => {
                             </div>
                         </div>
                         <div className="modal-footer">
-                            <button  className="btn btn-primary" data-bs-dismiss="modal" onClick={handleSubmit}>Submit</button>
+                            <button className="btn btn-primary" data-bs-dismiss="modal" onClick={handleSubmit}>Submit</button>
                         </div>
                     </div>
                 </div>
