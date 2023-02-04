@@ -6,7 +6,8 @@ const initialState = {
     allProject: null,
     detailProject: null,
     newProject: null,
-    projectUpdate: null
+    projectUpdate: null,
+    searchUserName: null
 }
 
 const projectReducer = createSlice({
@@ -27,24 +28,39 @@ const projectReducer = createSlice({
         },
         delProjectAction: (state, action) => {
             state = action.payload
+        },
+        searchUserNameAction: (state, action) => {
+            state.searchUserName = action.payload
         }
     }
 });
 
-export const { getAllProjectAction, addProjectAction, getDetailProjectAction, editProjectAction, delProjectAction } = projectReducer.actions
+export const { getAllProjectAction, addProjectAction, getDetailProjectAction, editProjectAction, delProjectAction, searchUserNameAction } = projectReducer.actions
 
 export default projectReducer.reducer
 
 export const getAllProjectApi = () => {
     return async (dispatch) => {
         try {
-            const result = await http.get('/api/Project/getAllProject')
+            const result = await http.get(`/api/Project/getAllProject`)
             dispatch(getAllProjectAction(result.data.content))
         } catch (err) {
             return;
         }
     }
 }
+
+export const getAllProjectSearchApi = (keyword) => {
+    return async (dispatch) => {
+        try {
+            const result = await http.get(`/api/Project/getAllProject?keyword=${keyword}`)
+            dispatch(getAllProjectAction(result.data.content))
+        } catch (err) {
+            return dispatch(getAllProjectApi());
+        }
+    }
+}
+
 
 export const getProjectDetailApi = (id) => {
     return async dispatch => {
@@ -86,9 +102,21 @@ export const delProjectApi = (id) => {
         try {
             const result = await http.delete(`/api/Project/deleteProject?projectId=${id}`)
             dispatch(delProjectAction(result.data.content))
+            dispatch(getAllProjectApi())
         }
         catch (err) {
             return;
+        }
+    }
+}
+
+export const searchUserNameApi = (keyword) => {
+    return async dispatch => {
+        try {
+            const result = await http.get(`/api/Users/getUser?keyword=${keyword}`)
+            dispatch(searchUserNameAction(result.data.content))
+        } catch (err) {
+            console.log(err)
         }
     }
 }

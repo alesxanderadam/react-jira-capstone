@@ -51,12 +51,17 @@ const ProjectForm = ({ project, submitted }) => {
                         <Button type="dashed" className="mx-3">Trở lại</Button>
                     </Link>
                     <Button type="primary" onClick={() => { form.submit() }}> {project ? "Edit" : "Add"} </Button>
-
                 </div>
             </div>
             <div className='tabled pt-3'>
                 <div className='mx-auto' style={{ maxWidth: '1000px' }}>
                     <Form wrapperCol={{ span: 24 }} size="large" layout="vertical" form={form} name="nest-messages" onFinish={onSubmit} validateMessages={validateMessages}>
+
+
+                        {project && <Form.Item name='id' label="Project Name" rules={[{ required: true }]} tooltip="This is a required field">
+                            <Input disabled={true} />
+                        </Form.Item>}
+
                         <Form.Item name="projectName" label="Project Name" rules={[{ required: true }]} tooltip="This is a required field">
                             <Input />
                         </Form.Item>

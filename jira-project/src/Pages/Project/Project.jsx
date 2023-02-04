@@ -4,10 +4,8 @@ import { PageConstant } from '../../common/page.constant'
 import '../../assets/scss/project.scss'
 import { Avatar, Button, Input, message, Modal, Popover, Table } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
-import { delProjectApi, getAllProjectApi } from '../../redux/reducers/projectReducer'
+import { delProjectApi, getAllProjectApi, getAllProjectSearchApi } from '../../redux/reducers/projectReducer'
 import { DeleteOutlined, EditOutlined, ExclamationCircleFilled } from '@ant-design/icons'
-import Title from 'antd/es/skeleton/Title'
-import { map } from 'lodash'
 
 export default function Project() {
   const navigate = useNavigate();
@@ -15,7 +13,7 @@ export default function Project() {
   const { allProject } = useSelector(state => state.projectReducer)
   const { Search } = Input;
   const onSearch = (value) => {
-    console.log(value)
+    dispatch(getAllProjectSearchApi(value))
   }
   const columns = [
     {
@@ -117,7 +115,7 @@ export default function Project() {
 
   useEffect(() => {
     dispatch(getAllProjectApi())
-  }, [allProject])
+  }, [])
 
 
 
