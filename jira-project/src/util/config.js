@@ -1,14 +1,24 @@
 import { history } from '../app';
 import axios from "axios"
-const TOKEN_CYBER = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJGcm9udGVuZCA3MyIsIkhldEhhblN0cmluZyI6IjE5LzA1LzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY4NDQ1NDQwMDAwMCIsIm5iZiI6MTY1OTg5MTYwMCwiZXhwIjoxNjg0NjAyMDAwfQ.49m9-EoDr6zr7UOk_79hfcvJWKI_s0Wy_g40ossfl9c'
+import { isExpired } from "react-jwt";
 
+<<<<<<<< HEAD:jira-project/src/util/config.js
 export const DOMAIN = 'https://jiranew.cybersoft.edu.vn'
 export const ACCESS_TOKEN = "accessToken"
 export const USER_LOGIN = 'userLogin'
+========
+export const TOKEN_CYBER = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJGcm9udGVuZCA3MyIsIkhldEhhblN0cmluZyI6IjE5LzA1LzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY4NDQ1NDQwMDAwMCIsIm5iZiI6MTY1OTg5MTYwMCwiZXhwIjoxNjg0NjAyMDAwfQ.49m9-EoDr6zr7UOk_79hfcvJWKI_s0Wy_g40ossfl9c'
+export const DOMAIN = 'https://jiranew.cybersoft.edu.vn/'
+export const ACCESS_TOKEN = "accessToken"
+export const USER_LOGIN = "userLogin"
+export const USER_PROFILE = "userProfile"
+export const USER_REGISTER = "userRegister";
+>>>>>>>> origin/createTask:jira-project/src/util/config.jsx
 export const http = axios.create({
     baseURL: DOMAIN,
     timeout: 30000,
 });
+<<<<<<<< HEAD:jira-project/src/util/config.js
 
 
 http.interceptors.request.use((config) => {
@@ -36,11 +46,49 @@ http.interceptors.response.use((res) => {
         history.push('/')
     }
     return Promise.reject(err)
+========
+http.interceptors.request.use((response) => {
+    
+    response.headers = {
+        ...response.headers,
+        Authorization: `${getStore(ACCESS_TOKEN)}`,
+        TokenCybersoft: TOKEN_CYBER,
+      };
+      return response;
+}, (error) => {
+    return Promise.reject(error)
+>>>>>>>> origin/createTask:jira-project/src/util/config.jsx
 })
 
+http.interceptors.response.use(
+    (result)=>{
+        return result;
+    },
+    (error)=>{
+        if (error.response?.status === 400 || error.response?.status === 404)
+            {history.push("/")}
+        if (error.response?.status === 401 || error.response?.status === 403) {
+            const isMyTokenExpired = isExpired(getStore(ACCESS_TOKEN));
+            if (isMyTokenExpired) {
+                alert("Hết phiên đăng nhập yêu cầu đăng nhập lại !");
+                clearStorage(ACCESS_TOKEN);
+                clearStorage(USER_LOGIN);
+                window.location.href = "/login";
+            }
+            history.push("/login");
+        }
+        return Promise.reject(error)
+    }
+)
 
+<<<<<<<< HEAD:jira-project/src/util/config.js
 export const settings = {
     setStorageJson: (name, data) => {
+========
+
+export const {setStorage, setStorageJson, getStorageJson, getStore, setCookieJson, getCookieJson, setCookie, getCookie, clearStorage, eraseCookie} = {
+    setStorageJson: (name, data)=> {
+>>>>>>>> origin/createTask:jira-project/src/util/config.jsx
         data = JSON.stringify(data);
         localStorage.setItem(name, data);
     },
@@ -60,7 +108,11 @@ export const settings = {
     },
     getStore: (name) => {
         if (localStorage.getItem(name)) {
+<<<<<<<< HEAD:jira-project/src/util/config.js
             const data = localStorage.getItem(name);
+========
+            const data= localStorage.getItem(name);
+>>>>>>>> origin/createTask:jira-project/src/util/config.jsx
             return data;
         }
         return;
@@ -85,7 +137,11 @@ export const settings = {
         }
         return null;
     },
+<<<<<<<< HEAD:jira-project/src/util/config.js
     setCookie: (name, value, days) => {
+========
+    setCookie: (name, value, days)  => {
+>>>>>>>> origin/createTask:jira-project/src/util/config.jsx
         var expires = "";
         if (days) {
             var date = new Date();
@@ -94,7 +150,11 @@ export const settings = {
         }
         document.cookie = name + "=" + (value || "") + expires + "; path=/";
     },
+<<<<<<<< HEAD:jira-project/src/util/config.js
     getCookie: (name) => {
+========
+    getCookie: (name)=> {
+>>>>>>>> origin/createTask:jira-project/src/util/config.jsx
         var nameEQ = name + "=";
         var ca = document.cookie.split(';');
         for (var i = 0; i < ca.length; i++) {
@@ -107,9 +167,15 @@ export const settings = {
     eraseCookie: (name) => {
         document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     },
+<<<<<<<< HEAD:jira-project/src/util/config.js
     clearStorage: (name) => {
+========
+    clearStorage: (name ) => {
+>>>>>>>> origin/createTask:jira-project/src/util/config.jsx
         localStorage.removeItem(name);
     }
 
 }
+
+
 

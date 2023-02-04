@@ -4,6 +4,10 @@ import { NavLink } from 'react-router-dom'
 import '../../assets/scss/home-template.scss'
 import throttle from "https://cdn.skypack.dev/lodash@4/throttle";
 import { PageConstant } from '../../common/page.constant';
+import { ACCESS_TOKEN, clearStorage, USER_LOGIN, USER_PROFILE } from '../../util/config';
+import { history } from '../../app';
+import { PageConstant } from '../../commom/page.constant';
+
 const Header = () => {
     // function onScroll() {
     //     if (window.pageYOffset) {
@@ -39,13 +43,33 @@ const Header = () => {
 
                 </div>
             ),
+            
+        },
+        {
+            key: '3',
+            label: (
+                <div>
+                    <NavLink className='navlink' style={{ textDecoration: 'none' }} 
+                    onClick={() => {
+                        clearStorage(ACCESS_TOKEN);
+                        clearStorage(USER_LOGIN);
+                        clearStorage(USER_PROFILE);
+                        history.push("/login");
+                        window.location.reload();
+                      }}
+                    >
+                        Log out
+                    </NavLink>
+
+                </div>
+            ),
         },
     ];
     return (
         <header className="header sticky sticky--top js-header">
             <nav className="navbar navbar-expand-lg bg-light">
                 <div className="container-fluid">
-                    <NavLink className='pe-4'><img src='./assets/img/shiba.png' alt='...' className='jira-logo' style={{ borderRadius: '100rem', width: '50px', height: '50px' }}></img></NavLink>
+                    <NavLink className='pe-4'><img src='../assets/img/shiba.png' alt='...' className='jira-logo' style={{ borderRadius: '100rem', width: '50px', height: '50px' }}></img></NavLink>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon" />
                     </button>
@@ -69,7 +93,7 @@ const Header = () => {
                                 </ul>
                             </li>
                             <li className="nav-item">
-                                <NavLink className="nav-link">Create task</NavLink>
+                                <NavLink className="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal">Create task</NavLink>
                             </li>
                         </ul>
                         <div className='d-flex'>
