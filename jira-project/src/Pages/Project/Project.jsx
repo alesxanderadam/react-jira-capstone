@@ -55,14 +55,14 @@ export default function Project() {
       width: 250,
       render: (data) => (
         <>
-          {data.members?.map((item) => {
+          {data.members?.map((item, index) => {
             const content = (
               <div>
                 {item.name}
               </div>
             );
             return <>
-              <Popover content={content}>
+              <Popover key={index} content={content}>
                 <Avatar
                   style={{ borderRadius: '100rem', width: '35px', height: '35px' }}
                   className="shape-avatar me-1"

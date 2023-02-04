@@ -115,6 +115,7 @@ h2 {
 
 label.label-register {
     font-size: .85rem;
+    font-weight: bold;
     text-transform: uppercase;
     color: #ccc;
 }
@@ -164,4 +165,46 @@ label.label-register {
     &:hover {
         color: darken(#999, 13%);
     }
+}
+
+.signup__container {
+    animation: modelShow 2s;
+}
+
+
+.thumbnail__logo {
+    animation: spin 2.5s infinite;
+}
+
+
+
+@keyframes spin {
+    0% {
+        transform: rotate(1deg) translate(4px, 4px);
+    }
+
+    50% {
+        transform: rotate(-1deg) translate(-4px, -4px);
+    }
+
+    100% {
+        transform: rotate(1deg) translate(4px, 4px);
+    }
+}
+
+
+@keyframes modelShow {
+    from {
+        transform: translateY(0);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(100);
+        opacity: 1;
+    }
+}
+
+a {
+    text-decoration: none;
 }

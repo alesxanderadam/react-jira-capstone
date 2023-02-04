@@ -6,6 +6,7 @@ import { Button, Input, Form, Select } from "antd";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllCategoryApi } from '../../redux/reducers/category';
+import '../../assets/scss/project-form.scss'
 
 const ProjectForm = ({ project, submitted }) => {
     const dispatch = useDispatch()
@@ -34,6 +35,10 @@ const ProjectForm = ({ project, submitted }) => {
         }
         dispatch(getAllCategoryApi())
     }, [project])
+
+    CKEditor.editorConfig = (config) => {
+        config.height = '800px';
+    };
 
     return (
         <>
