@@ -8,6 +8,7 @@ import Register from './Pages/Register/Register';
 import ProjectAdd from './Pages/Project/Project-add';
 import ProjectEdit from './Pages/Project/Project-edit';
 import { ACCESS_TOKEN, settings } from './util/config';
+import ProjectBoard from './Pages/Project/projectBoard';
 
 export const history = createBrowserHistory()
 
@@ -19,6 +20,7 @@ export default function App() {
                     <Route index element={<Project />}></Route>
                     <Route path={`${PageConstant.project}/new`} element={<ProjectAdd />}></Route>
                     <Route path={`${PageConstant.project}/:id/edit`} element={<ProjectEdit />}></Route>
+                    <Route path={`${PageConstant.project}/:id/board`} element={<ProjectBoard />}></Route>
                 </Route>
                 <Route path={`${PageConstant.login}`} element={settings.getStore(ACCESS_TOKEN) ? <Project /> : <Login />} />
                 <Route path={`${PageConstant.register}`} element={<Register />} />

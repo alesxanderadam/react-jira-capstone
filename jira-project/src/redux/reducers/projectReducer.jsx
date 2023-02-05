@@ -120,3 +120,16 @@ export const searchUserNameApi = (keyword) => {
         }
     }
 }
+
+export const addUserToProjectApi = (userProject) => {
+    return async dispatch => {
+        try {
+            const result = await http.post('/api/Project/assignUserProject',userProject)
+            
+            dispatch(getAllProjectApi());
+             message.success(`${result.data.message}`)
+        } catch (err) {
+            message.error('You are not the owner of this project')
+        }
+    }
+}

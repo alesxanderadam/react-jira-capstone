@@ -1,17 +1,20 @@
-import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { PageConstant } from '../../common/page.constant'
 import '../../assets/scss/project.scss'
-import { Avatar, Button, Input, message, Modal, Popover, Table } from 'antd'
+import { AutoComplete, Avatar, Button, Input, message, Modal, Popover, Table } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
-import { delProjectApi, getAllProjectApi, getAllProjectSearchApi } from '../../redux/reducers/projectReducer'
+import { addUserToProjectApi, delProjectApi, getAllProjectApi, getAllProjectSearchApi } from '../../redux/reducers/projectReducer'
 import { DeleteOutlined, EditOutlined, ExclamationCircleFilled } from '@ant-design/icons'
+import { getAllUserApi } from '../../redux/reducers/userReducer'
 
 export default function Project() {
   const navigate = useNavigate();
   const dispatch = useDispatch()
+  const { AllUsers } = useSelector(state => state.userReducer)
   const { allProject } = useSelector(state => state.projectReducer)
   const { Search } = Input;
+  const [value,setValue] = useState('');
   const onSearch = (value) => {
     dispatch(getAllProjectSearchApi(value))
   }
@@ -22,13 +25,18 @@ export default function Project() {
       defaultSortOrder: 'descend',
       width: 120,
       sorter: (a, b) => a.id - b.id,
+      
     },
     {
       title: 'Project name',
-      dataIndex: 'projectName',
       width: 250,
       sorter: (a, b) => a.projectName.length - b.projectName.length,
       sortDirections: ['descend'],
+      render: (data) => (
+        <NavLink to={`${PageConstant.project}/${data.id}/board`}>
+          {data.projectName}
+        </NavLink>
+      )
     },
     {
       title: 'Category name',
@@ -71,7 +79,34 @@ export default function Project() {
               </Popover>
             </>
           })}
-
+          <Popover
+                title={"Add user"}
+                content={()=>{
+                  return<AutoComplete 
+                    options={AllUsers?.map((user)=>{
+                      return {label:user.name,value:user.userId.toString()}
+                    })}
+                    value={value}
+                    onChange={(text)=>{
+                      setValue(text)
+                    }}
+                    onSelect={(value,option)=>{
+                      setValue(option.label)
+                      //goi api tra ve backend
+                      let addUser ={
+                        "projectId": data.id,
+                        "userId": value
+                      }
+                      dispatch(addUserToProjectApi(addUser))
+                    }}
+                    style={{width:'100%'}} onSearch={(value)=>{
+                    dispatch(getAllUserApi(value))
+                  }}/>
+                }} trigger='click'
+                
+              >
+                <Button>+</Button>
+              </Popover>
         </>
       )
     },

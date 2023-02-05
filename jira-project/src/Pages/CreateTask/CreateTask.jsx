@@ -39,8 +39,10 @@ const CreateTask = () => {
         newValue = { ...newValue, [name]: value }
 
         for (let i = 0; i < state.userChoice.length; i++) {
-            newValue['listUserAsign'].push(state.userChoice[i].value);
+            
+            newValue['listUserAsign'][i]=(state.userChoice[i].value);
         }
+        
         //check form rong
 
         if (value.trim() === '') {
