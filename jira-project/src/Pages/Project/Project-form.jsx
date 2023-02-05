@@ -68,6 +68,9 @@ const ProjectForm = ({ project, submitted }) => {
 
                         <Form.Item name='categoryId' label="Project category" rules={[{ required: true }]}>
                             <Select options={Category?.map((item) => {
+                                form.setFieldsValue({
+                                    projectCategory: item.id
+                                })
                                 return {
                                     label: `${item.projectCategoryName}`,
                                     value: `${item.id}`
