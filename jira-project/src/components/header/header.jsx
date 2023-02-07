@@ -78,7 +78,7 @@ const Header = () => {
                                     Project
                                 </NavLink>
                                 <ul className="dropdown-menu" style={{ width: '260px' }}>
-                                    <li><NavLink to={`${PageConstant.project}`} className="dropdown-item" href="#">View all projects</NavLink></li>
+                                    <li><NavLink to='/' className="dropdown-item" href="#">View all projects</NavLink></li>
                                     <li><NavLink to={`${PageConstant.project}/new`} className="dropdown-item" href="#">Create project</NavLink></li>
                                 </ul>
                             </li>
