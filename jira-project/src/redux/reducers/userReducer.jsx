@@ -6,7 +6,7 @@ import { ACCESS_TOKEN, http, settings, USER_LOGIN } from '../../util/config';
 const initialState = {
     Login: settings.getStore(ACCESS_TOKEN) ? settings.getStore(ACCESS_TOKEN) : null,
     Register: null,
-    AllUsers:null,
+    AllUsers: null,
 }
 
 const userReducer = createSlice({
@@ -24,11 +24,14 @@ const userReducer = createSlice({
         },
         getAllUserAction: (state, action) => {
             state.AllUsers = action.payload
+        },
+        editUserAction: (state, action) => {
+            state = action.payload
         }
     }
 });
 
-export const { userloginAction, userRegisterAction, getAllUserAction } = userReducer.actions
+export const { userloginAction, userRegisterAction, getAllUserAction, editUserAction } = userReducer.actions
 
 export default userReducer.reducer
 
@@ -55,7 +58,7 @@ export const userRegisterApi = (userRegister) => {
             console.log(err)
         }
     }
-} 
+}
 export const getAllUserApi = (getUser) => {
     return async dispatch => {
         try {
@@ -66,4 +69,15 @@ export const getAllUserApi = (getUser) => {
             // console.log(err)
         }
     }
-} 
+}
+export const editUserApi = (user) => {
+    return async dispatch => {
+        try {
+            const result = await http.put('/api/Users/editUser', user)
+            dispatch(editUserAction(result.data.content))
+            message.success(result.data.message)
+        } catch (err) {
+            return
+        }
+    }
+}

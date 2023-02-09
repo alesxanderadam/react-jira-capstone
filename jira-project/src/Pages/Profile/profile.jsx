@@ -1,16 +1,19 @@
 import { Avatar, Button, Form, Input, InputNumber } from 'antd'
 import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { editUserApi } from '../../redux/reducers/userReducer'
 import { settings, USER_LOGIN } from '../../util/config'
 
 const Profile = () => {
+    const dispatch = useDispatch()
     const onFinish = (values) => {
-        console.log(values)
+        dispatch(editUserApi(values))
     }
     useEffect(() => {
         if (settings.getStorageJson(USER_LOGIN)) {
             form.setFieldsValue(settings.getStorageJson(USER_LOGIN))
         }
-    }, [])
+    }, [settings.getStorageJson(USER_LOGIN)])
     const [form] = Form.useForm()
     return (
         <div className='container'>
@@ -56,6 +59,31 @@ const Profile = () => {
                                 </Form.Item>
                             </div>
 
+                            <div className="form-group">
+                                <label className='label-register'>Password confirmation</label>
+                                <Form.Item
+                                    name="confirm"
+                                    dependencies={['passWord']}
+                                    hasFeedback
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Please confirm your password!',
+                                        },
+                                        ({ getFieldValue }) => ({
+                                            validator(_, value) {
+                                                if (!value || getFieldValue('passWord') === value) {
+                                                    return Promise.resolve();
+                                                }
+                                                return Promise.reject(new Error('The two passwords that you entered do not match!'));
+                                            },
+                                        }),
+                                    ]}
+                                >
+                                    <Input className="form-control" />
+                                </Form.Item>
+                            </div>
+
                             <div className="m-t-lg">
                                 <ul className="list-inline d-flex align-items-center">
                                     <Button onClick={() => { form.submit() }} type='primary' className='me-2'>Update</Button>
@@ -66,7 +94,7 @@ const Profile = () => {
                     </div>
                 </div>
             </div>
-        </div >
+        </div>
     )
 }
 
