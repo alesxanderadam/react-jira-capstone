@@ -2655,6 +2655,7 @@
   dependencies:
     "@types/node" "*"
 
+"@types/hoist-non-react-statics@^3.3.1":
 "@types/hoist-non-react-statics@^3.3.0", "@types/hoist-non-react-statics@^3.3.1":
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/@types/hoist-non-react-statics/-/hoist-non-react-statics-3.3.1.tgz#1124aafe5118cb591977aeb1ceaaed1070eb039f"
@@ -2777,6 +2778,12 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-facebook-login@^4.1.5":
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/@types/react-facebook-login/-/react-facebook-login-4.1.5.tgz#a27c7c54e9d4b53f098dc4cb0fd84c0fb4d4e12c"
+  integrity sha512-adYUfzgeOa0I0dtgFsG/KzigvslSEY8KWXyAp9RjjPp7aWzbpNbkw8KR1RaGb98m+xO0udf9OnjDlpGsPcfCvA==
+  dependencies:
+    "@types/react" "*"
 "@types/react-redux@^7.1.20":
   version "7.1.25"
   resolved "https://registry.yarnpkg.com/@types/react-redux/-/react-redux-7.1.25.tgz#de841631205b24f9dfb4967dd4a7901e048f9a88"
@@ -4715,6 +4722,9 @@ ejs@^3.1.6:
     jake "^10.8.5"
 
 electron-to-chromium@^1.4.284:
+  version "1.4.292"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.292.tgz#e3a3dca3780c8ce01e2c1866b5ec2fbe31c423e3"
+  integrity sha512-ESWOSyJy5odDlE8wvh5NNAMORv4r6assPwIPGHEMWrWD0SONXcG/xT+9aD9CQyeRwyYDPo6dJT4Bbeg5uevVQQ==
   version "1.4.291"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.291.tgz#cca8ced73cc64feebca24388faf2dc321ee2f6ac"
   integrity sha512-8vk4rSMBh9LRfZKE6wcxOLmlfA4Xsa4v0RRwB6VJkAH703klC9XfZIocmTk2gLBzW31P6XbuNeMt1aB5aAu/2g==
@@ -6881,6 +6891,7 @@ jest@^27.4.3:
     formik "^2.2.9"
     framer-motion "^8.0.2"
     history "^5.3.0"
+    jira-project "file:../../../../../Library/Caches/Yarn/v6/npm-jira-project-0.1.0-bbca32fc-847c-4940-9659-5886f3876b9c-1675957039230/node_modules/jira-project"
     jira-project "file:C:/Users/Quang Huy/AppData/Local/Yarn/Cache/v6/npm-jira-project-0.1.0-54345d62-e87a-49a1-98b3-0adb0ceafc4d-1675918672269/node_modules/jira-project"
     lodash "^4.17.21"
     mdb-react-ui-kit "^5.1.0"
@@ -8999,6 +9010,7 @@ react-is@^16.12.0, react-is@^16.13.1, react-is@^16.3.2, react-is@^16.7.0:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
+react-is@^17.0.1:
 react-is@^17.0.1, react-is@^17.0.2:
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
@@ -9254,6 +9266,7 @@ redux-thunk@^2.4.2:
   resolved "https://registry.yarnpkg.com/redux-thunk/-/redux-thunk-2.4.2.tgz#b9d05d11994b99f7a91ea223e8b04cf0afa5ef3b"
   integrity sha512-+P3TjtnP0k/FEjcBL5FZpoovtvrTNT/UXd4/sluaSyrURlSlhLSzEdfsTBW7WsKB6yPvgd7q/iZPICFjW4o57Q==
 
+redux@^4.2.0:
 redux@^4.0.0, redux@^4.0.4, redux@^4.2.0:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/redux/-/redux-4.2.1.tgz#c08f4306826c49b5e9dc901dee0452ea8fce6197"
