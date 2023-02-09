@@ -26,6 +26,7 @@
     "lodash": "^4.17.21",
     "mdb-react-ui-kit": "^5.1.0",
     "react": "^18.2.0",
+    "react-beautiful-dnd": "^13.1.1",
     "react-bootstrap": "^2.7.0",
     "react-dom": "^18.2.0",
     "react-facebook-login": "^4.1.1",
@@ -35,6 +36,7 @@
     "react-router-dom": "^6.4.5",
     "react-scripts": "5.0.1",
     "react-select": "^5.7.0",
+    "react-spring": "^9.6.1",
     "react-toastify": "^9.1.1",
     "reactstrap": "^9.1.5",
     "redux": "^4.2.0",
@@ -67,7 +69,6 @@
     ]
   },
   "devDependencies": {
-    "@types/react-facebook-login": "^4.1.5",
     "sass": "^1.56.2"
   }
 }
