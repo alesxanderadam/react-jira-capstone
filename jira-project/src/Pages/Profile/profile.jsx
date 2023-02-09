@@ -1,4 +1,4 @@
-import { Button, Form, Input, InputNumber } from 'antd'
+import { Avatar, Button, Form, Input, InputNumber } from 'antd'
 import React, { useEffect } from 'react'
 import { settings, USER_LOGIN } from '../../util/config'
 
@@ -15,37 +15,44 @@ const Profile = () => {
     return (
         <div className='container'>
             <div className='row'>
-                <div className='col-xl-6'>
-                    <div className='img-avartar'>
-                        <img src='' alt='.'></img>
+                <div className='col-xl-4'>
+                    <div className='img-avartar p-3'>
+                        <img className='w-100' style={{ borderRadius: '100rem' }} src={settings.getStorageJson(USER_LOGIN).avatar}></img>
                     </div>
                 </div>
-                <div className='col-xl-6'>
-                    <div className='form-information-user'>
+                <div className='col-xl-8'>
+                    <div className='form-information-user p-3'>
                         <Form onFinish={onFinish} form={form}>
+                            <div className="form-group">
+                                <label className='label-register'>Email</label>
+                                <Form.Item name="id">
+                                    <Input disabled={true} className="form-control" />
+                                </Form.Item>
+                            </div>
                             <div className="form-group">
                                 <label className='label-register'>Email</label>
                                 <Form.Item name="email" id="email" rules={[{ required: true, type: 'email' }]}>
                                     <Input className="form-control" />
                                 </Form.Item>
                             </div>
-                            <div className="form-group">
-                                <label className='label-register'>Password</label>
-                                <Form.Item name="passWord" id="passWord" rules={[{ required: true }]}>
-                                    <Input className="form-control" />
-                                </Form.Item>
-                            </div>
 
                             <div className="form-group">
-                                <label className='label-register'>name</label>
+                                <label className='label-register'>Name</label>
                                 <Form.Item name="name" id="name" rules={[{ required: true }]}>
                                     <Input className="form-control" />
                                 </Form.Item>
                             </div>
                             <div className="form-group">
-                                <label className='label-register'>phone Number</label>
+                                <label className='label-register'>Phone Number</label>
                                 <Form.Item name="phoneNumber" id="phoneNumber" rules={[{ required: true }]}>
-                                    <InputNumber className="form-control" />
+                                    <Input className="form-control" />
+                                </Form.Item>
+                            </div>
+
+                            <div className="form-group">
+                                <label className='label-register'>Password</label>
+                                <Form.Item name="passWord" id="passWord" rules={[{ required: true }]}>
+                                    <Input className="form-control" />
                                 </Form.Item>
                             </div>
 
@@ -59,7 +66,7 @@ const Profile = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 
