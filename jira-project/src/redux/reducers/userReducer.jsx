@@ -17,7 +17,7 @@ const userReducer = createSlice({
             state.Login = aciton.payload
             settings.setStorageJson(USER_LOGIN, aciton.payload)
             settings.setStorage(ACCESS_TOKEN, aciton.payload.accessToken)
-            history.push(`${PageConstant.project}`)
+            history.push('/')
         },
         userRegisterAction: (state, action) => {
             state.Register = action.payload
@@ -75,6 +75,8 @@ export const editUserApi = (user) => {
         try {
             const result = await http.put('/api/Users/editUser', user)
             dispatch(editUserAction(result.data.content))
+            settings.setStorageJson(USER_LOGIN, user)
+            //có phải cái result là cái e sẽ update phải ko v cái setlocal phải là result chứ
             message.success(result.data.message)
         } catch (err) {
             return
