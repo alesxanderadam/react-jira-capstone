@@ -28,16 +28,16 @@ http.interceptors.response.use(
     },
     (error) => {
         if (error.response?.status === 400 || error.response?.status === 404) { history.push("/") }
-        if (error.response?.status === 401 || error.response?.status === 403) {
-            const isMyTokenExpired = isExpired(settings.getStore(ACCESS_TOKEN));
-            if (isMyTokenExpired) {
-                alert("Hết phiên đăng nhập yêu cầu đăng nhập lại !");
-                settings.clearStorage(ACCESS_TOKEN);
-                settings.clearStorage(USER_LOGIN);
-                window.location.href = "/login";
-            }
-            history.push("/login");
-        }
+        // if (error.response?.status === 401 || error.response?.status === 403) {
+        //     const isMyTokenExpired = isExpired(settings.getStore(ACCESS_TOKEN));
+        //     if (isMyTokenExpired) {
+        //         alert("Hết phiên đăng nhập yêu cầu đăng nhập lại !");
+        //         settings.clearStorage(ACCESS_TOKEN);
+        //         settings.clearStorage(USER_LOGIN);
+        //         window.location.href = "/login";
+        //     }
+        //     history.push("/login");
+        // }
         return Promise.reject(error)
     }
 )
