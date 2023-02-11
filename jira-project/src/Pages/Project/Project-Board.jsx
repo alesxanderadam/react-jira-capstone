@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom'
 import { addUserToProjectApi, getProjectDetailApi } from '../../redux/reducers/projectReducer'
 import { getAllUserApi } from '../../redux/reducers/userReducer'
 import _ from 'lodash'
+import { getAllStatusApi, getUserByProjectIdApi } from '../../redux/reducers/taskReducer'
 
 const ProjectBoard = () => {
     const dispatch = useDispatch()
@@ -13,9 +14,11 @@ const ProjectBoard = () => {
     const [value, setValue] = useState('');
     const { AllUsers } = useSelector(state => state.userReducer)
     const { allProject } = useSelector(state => state.projectReducer)
-    const { arrStatus } = useSelector(state => state.taskReducer)
+    const { arrStatus, arrUserByProjectId } = useSelector(state => state.taskReducer)
     useEffect(() => {
+        dispatch(getAllStatusApi())
         dispatch(getProjectDetailApi(id))
+        dispatch(getUserByProjectIdApi(id))
     }, [id])
 
     return (
@@ -24,76 +27,90 @@ const ProjectBoard = () => {
                 <div>
                     Projects / Project name
                 </div>
-                <div className='w-50 py-5'>
-                    <div className='d-flex justify-content-between align-items-center'>
-                        <h3 style={{
-                            color: 'black', fontWeight: '500'
-                        }}>Board</h3>
-                        <>
-                            {
-                                allProject.members?.map((item, index) => {
-                                    const content = (
-                                        <div>
-                                            {item.name}
+                <div className='py-5'>
+                    <div className='d-flex align-items-center'>
+                        <div className='row'>
+                            <div className='col-4'>
+                                <h3 style={{ color: 'black', fontWeight: '500' }}>Board</h3>
+                            </div>
+                            <div className='col-8 d-flex align-items-center'>
+                                <span className='me-3'>Member</span>
+                                {
+                                    arrUserByProjectId?.map((item, index) => {
+                                        const content = (
+                                            <div>
+                                                {item.name}
+                                            </div>
+                                        );
+                                        return <div>
+                                            <Popover key={index} content={content}>
+                                                <Avatar
+                                                    style={{ borderRadius: '100rem', width: '28px', height: '28px' }}
+                                                    className="shape-avatar me-1"
+                                                    shape="square"
+                                                    size={40}
+                                                    src={`${item.avatar}`}
+                                                ></Avatar>
+                                            </Popover>
                                         </div>
-                                    );
-                                    return <>
-                                        <Popover key={index} content={content}>
-                                            <Avatar
-                                                style={{ borderRadius: '100rem', width: '35px', height: '35px' }}
-                                                className="shape-avatar me-1"
-                                                shape="square"
-                                                size={40}
-                                                src={`${item.avatar}`}
-                                            ></Avatar>
-                                        </Popover>
-                                    </>
-                                })
-                            }
-                            <Popover
-                                title={"Add user"}
-                                content={() => {
-                                    return <AutoComplete
-                                        options={AllUsers?.map((user) => {
-                                            return { label: user.name, value: user.userId.toString() }
-                                        })}
-                                        value={value}
-                                        onChange={(text) => {
-                                            setValue(text)
-                                        }}
-                                        onSelect={(value, option) => {
-                                            setValue(option.label)
-                                            //goi api tra ve backend
-                                            let addUser = {
-                                                "projectId": allProject.id,
-                                                "userId": value
-                                            }
-                                            dispatch(addUserToProjectApi(addUser))
-                                        }}
-                                        style={{ width: '100%' }} onSearch={(value) => {
-                                            dispatch(getAllUserApi(value))
-                                        }} />
-                                }} trigger='click'
+                                    })
+                                }
+                                <Popover
+                                    title={"Add user"}
+                                    content={() => {
+                                        return <AutoComplete
+                                            options={AllUsers?.map((user) => {
+                                                return { label: user.name, value: user.userId.toString() }
+                                            })}
+                                            value={value}
+                                            onChange={(text) => {
+                                                setValue(text)
+                                            }}
+                                            onSelect={(value, option) => {
+                                                setValue(option.label)
+                                                //goi api tra ve backend
+                                                let addUser = {
+                                                    "projectId": allProject.id,
+                                                    "userId": value
+                                                }
+                                                dispatch(addUserToProjectApi(addUser))
+                                            }}
+                                            style={{ width: '100%' }} onSearch={(value) => {
+                                                dispatch(getAllUserApi(value))
+                                            }} />
+                                    }} trigger='click'
 
-                            >
-                                <Button>+</Button>
-                            </Popover>
-                        </>
+                                >
+                                    <Button>+</Button>
+                                </Popover>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div className='board-task pt-2'>
                 <Row>
-                    {arrStatus?.map((item, index) => {
-                        return <Col span={6} key={index}>
-                            <div className='form-board p-2 mx-2' style={{ backgroundColor: 'gray' }}>
-                                <Tag color="geekblue"> {item.statusName}</Tag>
-                                <form className='form'>
-                                    <div>qwkejqowjejqweiuqwiueu</div>
-                                </form>
-                            </div>
-                        </Col>
-                    })}
+                    <Col span={6}>
+                        <div className='form-board p-2 mx-2'>
+                            <Tag color="default"><span style={{ color: 'black' }}>BACKLOG</span></Tag>
+                        </div>
+                    </Col>
+                    <Col span={6}>
+                        <div className='form-board p-2 mx-2' >
+                            <Tag color="geekblue"><span style={{ color: 'black' }}>SELECTED FOR DEVELOPMENT</span></Tag>
+                        </div>
+                    </Col>
+                    <Col span={6}>
+                        <div className='form-board p-2 mx-2' >
+                            <Tag color="cyan"><span style={{ color: 'black' }}>IN PROGRESS</span></Tag>
+                        </div>
+                    </Col>
+                    <Col span={6}>
+                        <div className='form-board p-2 mx-2' >
+                            <Tag color="green"><span style={{ color: 'black' }}>DONE</span></Tag>
+                        </div>
+                    </Col>
+
                 </Row>
             </div>
         </div>
