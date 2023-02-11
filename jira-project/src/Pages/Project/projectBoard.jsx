@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import _ from 'lodash'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
-const ProjectBoard = () => {
+const BoardLearning = () => {
   const [state, setState] = useState({
     toDo: {
       id: 'toDo',
@@ -103,4 +103,4 @@ const ProjectBoard = () => {
   )
 }
 
-export default ProjectBoard
+export default BoardLearning

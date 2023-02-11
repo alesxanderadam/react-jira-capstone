@@ -8,7 +8,7 @@ import Register from './Pages/Register/Register';
 import ProjectAdd from './Pages/Project/Project-add';
 import ProjectEdit from './Pages/Project/Project-edit';
 import { ACCESS_TOKEN, settings } from './util/config';
-import ProjectBoard from './Pages/Project/projectBoard';
+import ProjectBoard from './Pages/Project/Project-Board';
 
 export const history = createBrowserHistory()
 
