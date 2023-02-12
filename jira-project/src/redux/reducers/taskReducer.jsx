@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { message } from 'antd';
 import axios from 'axios';
 import { history } from '../../app';
 import { settings, http } from '../../util/config';
@@ -62,9 +63,13 @@ export const getTaskTypeApi = () => {
 }
 export const getUserByProjectIdApi = (projectID) => {
     return async (dispatch) => {
-        const result = await http.get(`/api/Users/getUserByProjectId?idProject=${projectID}`)
+        try{
+            const result = await http.get(`/api/Users/getUserByProjectId?idProject=${projectID}`)
         const action = getUserByProjectIdAction(result.data.content);
         dispatch(action)
+        } catch{
+            dispatch(getUserByProjectIdAction([]))
+        }
     }
 }
 export const createTaskApi = (newTask) => {
@@ -73,10 +78,10 @@ export const createTaskApi = (newTask) => {
             const result = await http.post('/api/Project/createTask', newTask)
             const action = createTaskAction(result.data.content);
             dispatch(action)
-            alert('Successfull')
+            message.success(`${result.data.message}`)
             history.push('/')
         } catch {
-            alert('Create task fail')
+            message.error('You are not the owner of this project')
         }
     }
 }
