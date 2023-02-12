@@ -1,0 +1,24 @@
+.drag-task {
+    color: #da8fa9 !important;
+
+}
+
+.card {
+    background-color: #fce4ec;
+
+    .card-header {
+        border-bottom: 4px solid #ffff !important;
+        background-color: #f8bbd0;
+        color: #da8fa9 !important;
+        font-weight: 600;
+        text-align: center;
+    }
+}
+
+.list-group-item {
+    margin-top: 10px;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    padding: 10px !important;
+    background-color: #ffff;
+    color: #da8fa9;
+}

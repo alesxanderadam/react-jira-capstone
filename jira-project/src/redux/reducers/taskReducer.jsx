@@ -9,7 +9,8 @@ const initialState = {
     arrPriority: [],
     arrTaskType: [],
     arrUserByProjectId: [],
-    createTask: []
+    createTask: [],
+    taskDetail: [],
 }
 
 const taskReducer = createSlice({
@@ -25,6 +26,9 @@ const taskReducer = createSlice({
         getTaskTypeAction: (state, action) => {
             state.arrTaskType = action.payload
         },
+        getTaskDetailByIdAction: (state, action) => {
+            state.taskDetail = action.payload
+        },
         getUserByProjectIdAction: (state, action) => {
             state.arrUserByProjectId = action.payload
         },
@@ -34,7 +38,7 @@ const taskReducer = createSlice({
     }
 });
 
-export const { getStatusAction, getPriorityAction, getTaskTypeAction, getUserByProjectIdAction, createTaskAction } = taskReducer.actions
+export const { getStatusAction, getPriorityAction, getTaskTypeAction, getUserByProjectIdAction, createTaskAction, getTaskDetailByIdAction } = taskReducer.actions
 
 export default taskReducer.reducer
 
@@ -62,9 +66,24 @@ export const getTaskTypeApi = () => {
 }
 export const getUserByProjectIdApi = (projectID) => {
     return async (dispatch) => {
-        const result = await http.get(`/api/Users/getUserByProjectId?idProject=${projectID}`)
-        const action = getUserByProjectIdAction(result.data.content);
-        dispatch(action)
+        try {
+            const result = await http.get(`/api/Users/getUserByProjectId?idProject=${projectID}`)
+            const action = getUserByProjectIdAction(result.data.content);
+            dispatch(action)
+        } catch (err) {
+            return
+        }
+
+    }
+}
+export const getTaskDetailByIdApi = (id) => {
+    return async dispatch => {
+        try {
+            const result = await http.get(`/api/Project/getTaskDetail?taskId=${id}`)
+            return dispatch(getTaskDetailByIdAction(result.data.content))
+        } catch (err) {
+            console.log("Get Task detail error", err)
+        }
     }
 }
 export const createTaskApi = (newTask) => {

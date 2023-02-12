@@ -27,7 +27,7 @@ http.interceptors.response.use(
         return result;
     },
     (error) => {
-        if (error.response?.status === 400 || error.response?.status === 404) { history.push("/") }
+        // if (error.response?.status === 400 || error.response?.status === 404) { history.push("/") }
         if (error.response?.status === 401 || error.response?.status === 403) {
             const isMyTokenExpired = isExpired(settings.getStore(ACCESS_TOKEN));
             if (isMyTokenExpired) {
