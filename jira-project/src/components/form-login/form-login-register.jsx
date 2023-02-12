@@ -64,7 +64,7 @@ const FormUser = ({ user, submitted }) => {
                     <div className="form-group">
                         <label className='label-register'>Password</label>
                         <Form.Item name="passWord" id="passWord" rules={[{ required: true }]}>
-                            <Input className="form-control" />
+                            <Input.Password className="form-control" style={{display: "flex"}} />
                         </Form.Item>
                     </div>
 

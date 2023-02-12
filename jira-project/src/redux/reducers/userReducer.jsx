@@ -3,6 +3,7 @@ import { message } from 'antd';
 import { history } from '../../app';
 import { PageConstant } from '../../common/page.constant';
 import { ACCESS_TOKEN, http, settings, USER_LOGIN } from '../../util/config';
+import bcrypt from "bcryptjs";
 const initialState = {
     Login: settings.getStore(ACCESS_TOKEN) ? settings.getStore(ACCESS_TOKEN) : null,
     Register: null,
@@ -75,6 +76,8 @@ export const editUserApi = (user) => {
         try {
             const result = await http.put('/api/Users/editUser', user)
             dispatch(editUserAction(result.data.content))
+            user.passWord = bcrypt.hashSync(user.passWord, 10);
+            user.confirm = bcrypt.hashSync(user.confirm, 10);
             settings.setStorageJson(USER_LOGIN, user)
             //có phải cái result là cái e sẽ update phải ko v cái setlocal phải là result chứ
             message.success(result.data.message)
