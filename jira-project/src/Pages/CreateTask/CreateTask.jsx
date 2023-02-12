@@ -99,16 +99,16 @@ const CreateTask = () => {
     return (
         <div>
             <div className="modal fade" id="exampleModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div className="modal-dialog" style={{ marginRight: '0', maxWidth: '1000px' }}>
+                <div className="modal-dialog" style={{ marginRight: '0', maxWidth: '700px' }}>
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h1 className="modal-title fs-5" id="exampleModalLabel">Create Task</h1>
+                            <h1 className="modal-title fs-5 text-dark fw-bold" id="exampleModalLabel">Create Task</h1>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
                         </div>
                         <div className="modal-body">
-                            <div className=' ' style={{ backgroundColor: '#eeeeee', width: '100%', height: '100%', widows: '100%' }}>
+                            <div className=' ' style={{  width: '100%', height: '100%', widows: '100%' }}>
 
-                                <form className="form-card p-5 bg-light" onChange={handleChange}>
+                                <form className="form-card px-5 " onChange={handleChange}>
                                     <fieldset className="form-fieldset">
                                         {/* project */}
                                         <div className="mb-3">
@@ -117,9 +117,6 @@ const CreateTask = () => {
                                                 {allProject?.map((item, index) => {
                                                     return <option key={index} value={item.id}>{item.projectName}</option>
                                                 })}
-                                                {/* <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option> */}
                                             </select>
                                             <span> <i>* You can only create task of your own project</i></span>
                                         </div>
@@ -136,9 +133,6 @@ const CreateTask = () => {
                                                 {arrStatus.map((item, index) => {
                                                     return <option key={index} value={item.statusId}>{item.statusName}</option>
                                                 })}
-                                                {/* <option  value="1">BACKLOG</option>
-                                                <option value="2">SELECTED FOR DEVELOPER</option>
-                                                <option value="3">IN PROGRESS</option> */}
                                             </select>
                                         </div>
                                         {/* priorityId */}
@@ -149,10 +143,6 @@ const CreateTask = () => {
                                                     {arrPriority.map((item, index) => {
                                                         return <option key={index} value={item.priorityId}>{item.priority}</option>
                                                     })}
-                                                    {/* <option  value="1">Hight</option>
-                                                    <option value="2">Medium</option>
-                                                    <option value="3">Low</option>
-                                                    <option value="4">Lowest</option> */}
                                                 </select>
                                             </div>
                                             <div className="col-6">
@@ -161,21 +151,12 @@ const CreateTask = () => {
                                                     {arrTaskType.map((item, index) => {
                                                         return <option key={index} value={item.id}>{item.taskType}</option>
                                                     })}
-                                                    {/* <option  value="1">bug</option>
-                                                    <option value="2">New task</option> */}
                                                 </select>
                                             </div>
                                         </div>
                                         {/* listUserAsign */}
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Assigners</label>
-                                            {/* <input type="email" className="form-control" id="exampleFormControlInput1" placeholder="Task name" /> */}
-                                            {/* <select name='listUserAsign' className="form-select" aria-label="Default select example">
-                                                {arrUserByProjectId.map((item,index)=>{
-                                                    return <option key={index} value={item.userId}>{item.name}</option>
-                                                })}
-                                            </select> */}
-
                                             <Select
                                                 isMulti
                                                 name="listUserAsign"
