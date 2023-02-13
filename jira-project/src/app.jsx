@@ -8,7 +8,8 @@ import Register from './Pages/Register/Register';
 import ProjectAdd from './Pages/Project/Project-add';
 import ProjectEdit from './Pages/Project/Project-edit';
 import { ACCESS_TOKEN, settings } from './util/config';
-import ProjectBoard from './Pages/Project/Project-Board';
+import ProjectBoard from './Pages/Project/projectBoard';
+import Profile from './Pages/Profile/profile';
 
 export const history = createBrowserHistory()
 
@@ -18,6 +19,7 @@ export default function App() {
             <Routes>
                 <Route path='/' element={<HomeTemplate />}>
                     <Route index element={<Project />}></Route>
+                    <Route path={`${PageConstant.profile}`} element={<Profile />}></Route>
                     <Route path={`${PageConstant.project}/new`} element={<ProjectAdd />}></Route>
                     <Route path={`${PageConstant.project}/:id/edit`} element={<ProjectEdit />}></Route>
                     <Route path={`${PageConstant.project}/:id/board`} element={<ProjectBoard />}></Route>

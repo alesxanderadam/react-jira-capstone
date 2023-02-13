@@ -1,5 +1,6 @@
 export const PageConstant = {
     project: '/project',
     login: '/login',
-    register: '/register'
+    register: '/register',
+    profile: '/profile'
 }
