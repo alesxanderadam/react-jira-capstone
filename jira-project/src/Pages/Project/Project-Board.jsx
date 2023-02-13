@@ -32,21 +32,16 @@ const ProjectBoard = () => {
         setModalDetailProjectOpen(false);
     };
     const handleDragEnd = (result) => {
-        let { projectId, taskId } = JSON.parse(result.draggableId)
-        console.log("projectId", projectId + '' + "taskId", taskId)
+        let { taskId } = JSON.parse(result.draggableId)
         let { source, destination } = result
-        console.log(result)
-        if (!result.destination) {
+        if (!destination || source.index === destination.index && source.droppableId === destination.droppableId) {
             return;
+        } else {
+            dispatch(updateStatusApi({
+                "taskId": taskId,
+                "statusId": destination.droppableId,
+            }))
         }
-        if (source.index == destination.index && source.draggableId == destination.droppableId) {
-            return;
-        }
-        dispatch(updateStatusApi({
-            "taskId": taskId,
-            "statusId": destination.droppableId,
-            "projectId": projectId
-        }))
     }
     useEffect(() => {
         if (taskDetail) {
@@ -133,7 +128,7 @@ const ProjectBoard = () => {
                                         <div className='card-body p-2' ref={provided.innerRef} {...provided.droppableProps}>
                                             <ul className='p-0' >
                                                 {item.lstTaskDeTail?.map((task, index) => {
-                                                    return <Draggable key={task.taskId.toString()} index={index} draggableId={JSON.stringify({ projectId: task.projectId, taskId: task.taskId })}>
+                                                    return <Draggable key={task.taskId.toString()} index={index} draggableId={JSON.stringify({ taskId: task.taskId })}>
                                                         {(provided) => {
                                                             return <li
                                                                 ref={provided.innerRef}

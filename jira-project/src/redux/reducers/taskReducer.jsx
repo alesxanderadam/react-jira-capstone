@@ -106,7 +106,7 @@ export const createTaskApi = (newTask) => {
 export const updateStatusApi = (taskId) => {
     return async dispatch => {
         try {
-            const result = await http.post('/api/Project/updateStatus', taskId)
+            const result = await http.put('/api/Project/updateStatus', taskId)
             dispatch(updateStatusAction(result.data.content))
         } catch (err) {
             message.error(err.response.data.message)
