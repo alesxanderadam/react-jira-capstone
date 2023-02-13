@@ -35,11 +35,14 @@ const taskReducer = createSlice({
         },
         createTaskAction: (state, action) => {
             state.createTask = action.payload
+        },
+        updateStatusAction: (state, action) => {
+            state = action.payload
         }
     }
 });
 
-export const { getStatusAction, getPriorityAction, getTaskTypeAction, getUserByProjectIdAction, createTaskAction, getTaskDetailByIdAction } = taskReducer.actions
+export const { getStatusAction, getPriorityAction, getTaskTypeAction, getUserByProjectIdAction, createTaskAction, getTaskDetailByIdAction, updateStatusAction } = taskReducer.actions
 
 export default taskReducer.reducer
 
@@ -97,6 +100,16 @@ export const createTaskApi = (newTask) => {
             history.push('/')
         } catch {
             message.error('You are not the owner of this project')
+        }
+    }
+}
+export const updateStatusApi = (taskId) => {
+    return async dispatch => {
+        try {
+            const result = await http.post('/api/Project/updateStatus', taskId)
+            dispatch(updateStatusAction(result.data.content))
+        } catch (err) {
+            message.error(err.response.data.message)
         }
     }
 }
