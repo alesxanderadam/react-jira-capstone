@@ -19,7 +19,7 @@ const ProjectBoard = () => {
     const [desscription, setDescription] = useState('')
     const { AllUsers } = useSelector(state => state.userReducer)
     const { detailProject } = useSelector(state => state.projectReducer)
-    const { arrUserByProjectId, arrTaskType, taskDetail, arrStatus } = useSelector(state => state.taskReducer)
+    const { arrTaskType, taskDetail, arrStatus } = useSelector(state => state.taskReducer)
     const [isModalDetailProjectOpen, setModalDetailProjectOpen] = useState(false);
     const [form] = Form.useForm()
     const showModal = () => {
@@ -70,7 +70,7 @@ const ProjectBoard = () => {
                             <div className='col-8 d-flex align-items-center'>
                                 <span className='me-3'>Member</span>
                                 {
-                                    arrUserByProjectId?.map((item, index) => {
+                                    detailProject && detailProject.members?.map((item, index) => {
                                         const content = (
                                             <div>
                                                 {item.name}
