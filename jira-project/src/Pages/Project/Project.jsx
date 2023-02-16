@@ -139,7 +139,6 @@ export default function Project() {
       okType: "primary",
       cancelText: "Không",
       onOk() {
-        message.success('Delete success')
         dispatch(delProjectApi(id))
       },
       onCancel() {
