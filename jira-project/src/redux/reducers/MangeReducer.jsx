@@ -4,6 +4,7 @@ import { http } from "../../util/config";
 const initialState = {
   userArr: null,
   userDetail:null,
+  userEdit:null,
 };
 
 const MangeReducer = createSlice({
@@ -18,11 +19,14 @@ const MangeReducer = createSlice({
     },
     detailUserAction:(state,actions) =>{
       state.userDetail = actions.payload;
+    },
+    userEditAction:(state,actions) =>{
+      state.userDetail =actions.payload;
     }
   },
 });
 
-export const { userManagerAction, delUserAction,detailUserAction } = MangeReducer.actions;
+export const { userManagerAction, delUserAction,detailUserAction,userEditAction } = MangeReducer.actions;
 
 export default MangeReducer.reducer;
 
@@ -57,6 +61,19 @@ export const getUserById = (id) =>{
       dispatch(detailUserAction(result.data.content[0]))
     }
     catch (err){
+      return;
+    }
+  }
+}
+export const editUserByid = (values) =>{
+  return async dispatch =>{
+    try{
+      const result = await http.put(`/api/Users/editUser`,values)
+      dispatch(userEditAction(result.data.content))
+      message.success(`${result.data.message}`)
+    }
+    catch (err){
+      console.log(err)
       return;
     }
   }
