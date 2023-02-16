@@ -1,4 +1,4 @@
-import { Dropdown, Space } from 'antd';
+import { Avatar, Dropdown, Popover, Space } from 'antd';
 import { SettingOutlined } from '@ant-design/icons';
 import { NavLink } from 'react-router-dom'
 import '../../assets/scss/home-template.scss'
@@ -25,6 +25,18 @@ const Header = () => {
         {
             key: '1',
             label: (
+                <div>
+                    <NavLink to={PageConstant.profile} className='navlink' style={{ textDecoration: 'none' }}>
+                        Profile
+                    </NavLink>
+
+                </div>
+            ),
+
+        },
+        {
+            key: '2',
+            label: (
                 <div style={{ width: 200 }}>
                     <NavLink className='navlink' style={{ textDecoration: 'none' }}>
                         User Managerment
@@ -32,18 +44,7 @@ const Header = () => {
                 </div>
             ),
         },
-        {
-            key: '2',
-            label: (
-                <div>
-                    <NavLink className='navlink' style={{ textDecoration: 'none' }}>
-                        Project
-                    </NavLink>
 
-                </div>
-            ),
-
-        },
         {
             key: '3',
             label: (
@@ -102,7 +103,13 @@ const Header = () => {
                             >
                                 <a onClick={(e) => e.preventDefault()}>
                                     <Space>
-                                        <SettingOutlined style={{ fontSize: '20px', color: 'black' }} />
+                                        <Avatar
+                                            style={{ borderRadius: '100rem', width: '35px', height: '35px' }}
+                                            className="shape-avatar me-1"
+                                            shape="square"
+                                            size={40}
+                                            src={settings.getStorageJson(USER_LOGIN).avatar}
+                                        ></Avatar>
                                     </Space>
                                 </a>
                             </Dropdown>

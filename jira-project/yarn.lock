@@ -3560,6 +3560,11 @@ batch@0.6.1:
   resolved "https://registry.yarnpkg.com/batch/-/batch-0.6.1.tgz#dc34314f4e679318093fc760272525f94bf25c16"
   integrity sha512-x+VAiMRL6UPkx+kudNvxTl6hB2XNNCG2r+7wixVfIYwu/2HKRXimwQyaumLjMveWvT2Hkd/cAJw+QBMfJ/EKVw==
 
+bcryptjs@^2.4.3:
+  version "2.4.3"
+  resolved "https://registry.yarnpkg.com/bcryptjs/-/bcryptjs-2.4.3.tgz#9ab5627b93e60621ff7cdac5da9733027df1d0cb"
+  integrity sha512-V/Hy/X9Vt7f3BbPJEi8BdVFMByHi+jNXrYkW3huaybV/kQ0KJg0Y6PkEMbn+zeT+i+SiKZ/HMqJGIIt4LZDqNQ==
+
 bfj@^7.0.2:
   version "7.0.2"
   resolved "https://registry.yarnpkg.com/bfj/-/bfj-7.0.2.tgz#1988ce76f3add9ac2913fd8ba47aad9e651bfbb2"
@@ -6785,7 +6790,7 @@ jest@^27.4.3:
     formik "^2.2.9"
     framer-motion "^8.0.2"
     history "^5.3.0"
-    jira-project "file:../../../../../Library/Caches/Yarn/v6/npm-jira-project-0.1.0-bbca32fc-847c-4940-9659-5886f3876b9c-1675957039230/node_modules/jira-project"
+    jira-project "file:C:/Users/Admin/AppData/Local/Yarn/Cache/v6/npm-jira-project-0.1.0-b1ef2514-f511-411a-8f0f-b0250c780594-1676219693849/node_modules/jira-project"
     lodash "^4.17.21"
     mdb-react-ui-kit "^5.1.0"
     react "^18.2.0"
