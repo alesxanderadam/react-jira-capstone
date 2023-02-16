@@ -9,7 +9,7 @@ import ProjectAdd from './Pages/Project/Project-add';
 import ProjectEdit from './Pages/Project/Project-edit';
 import { ACCESS_TOKEN, settings } from './util/config';
 import ProjectBoard from './Pages/Project/projectBoard';
-import Profile from './Pages/Profile/profile';
+import Profile from './Pages/Profile/Profile';
 import UserEdit from './Pages/Users/Users-edit';
 import Users from './Pages/Users/Users';
 

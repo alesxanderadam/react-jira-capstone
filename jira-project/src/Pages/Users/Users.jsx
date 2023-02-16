@@ -44,7 +44,7 @@ export default function Users() {
   },
   {
     title:'Phone Number',
-    dataIndex:'phone',
+    dataIndex:'phoneNumber',
   },
   {
     title:'Action',
