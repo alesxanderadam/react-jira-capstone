@@ -36,7 +36,7 @@ const Profile = () => {
           <div className="form-information-user p-3">
             <Form onFinish={onFinish} form={form}>
               <div className="form-group">
-                <label className="label-register">Email</label>
+                <label className="label-register">Id</label>
                 <Form.Item name="id">
                   <Input disabled={true} className="form-control" />
                 </Form.Item>
@@ -46,7 +46,7 @@ const Profile = () => {
                 <Form.Item
                   name="email"
                   id="email"
-                  rules={[{ required: true, type: "email" }]}
+                  rules={[{type: "email" }]}
                 >
                   <Input className="form-control" />
                 </Form.Item>
@@ -54,7 +54,7 @@ const Profile = () => {
 
               <div className="form-group">
                 <label className="label-register">Name</label>
-                <Form.Item name="name" id="name" rules={[{ required: true }]}>
+                <Form.Item name="name" id="name">
                   <Input className="form-control" />
                 </Form.Item>
               </div>
@@ -63,7 +63,6 @@ const Profile = () => {
                 <Form.Item
                   name="phoneNumber"
                   id="phoneNumber"
-                  rules={[{ required: true }]}
                 >
                   <Input className="form-control" />
                 </Form.Item>
@@ -74,7 +73,6 @@ const Profile = () => {
                 <Form.Item
                   name="passWord"
                   id="passWord"
-                  rules={[{ required: true }]}
                   hasFeedback
                 >
                   <Input.Password className="form-control" style={{display: "flex"}} />
@@ -88,10 +86,6 @@ const Profile = () => {
                   dependencies={["passWord"]}
                   hasFeedback
                   rules={[
-                    {
-                      required: true,
-                      message: "Please confirm your password!",
-                    },
                     ({ getFieldValue }) => ({
                       validator(_, value) {
                         if (!value || getFieldValue("passWord") === value) {
