@@ -1,4 +1,4 @@
-import { Avatar, Button, Form, Input, InputNumber } from "antd";
+import { Avatar, Button, Form, Input } from "antd";
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { editUserApi } from "../../redux/reducers/userReducer";
@@ -46,7 +46,7 @@ const Profile = () => {
                 <Form.Item
                   name="email"
                   id="email"
-                  rules={[{type: "email" }]}
+                  rules={[{ type: "email" }]}
                 >
                   <Input className="form-control" />
                 </Form.Item>
@@ -75,7 +75,7 @@ const Profile = () => {
                   id="passWord"
                   hasFeedback
                 >
-                  <Input.Password className="form-control" style={{display: "flex"}} />
+                  <Input.Password className="form-control" style={{ display: "flex" }} />
                 </Form.Item>
               </div>
 
@@ -100,7 +100,7 @@ const Profile = () => {
                     }),
                   ]}
                 >
-                  <Input.Password className="form-control" style={{display: "flex"}} />
+                  <Input.Password className="form-control" style={{ display: "flex" }} />
                 </Form.Item>
               </div>
 
