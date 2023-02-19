@@ -8,6 +8,7 @@ import { addUserToProjectApi, getProjectDetailApi } from '../../redux/reducers/p
 import { getAllUserApi } from '../../redux/reducers/userReducer'
 import { delTaskAction, delTaskApi, getAllStatusApi, getTaskDetailByIdApi, getUserByProjectIdApi, updateDescriptionApi, updateEstimateApi, updatePriorityApi, updateStatusApi, updateTasskApi, updateTimeTrackingApi } from '../../redux/reducers/taskReducer'
 import _ from 'lodash'
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import '../../assets/scss/drag-drop.scss'
 import { Editor } from '@tinymce/tinymce-react';
 import { CheckOutlined, CloseOutlined, DeleteOutlined } from '@ant-design/icons'
@@ -37,12 +38,27 @@ const ProjectBoard = () => {
         dispatch(getProjectDetailApi(id))
 
     };
+    const handleDragEnd = (result) => {
+        let { taskId } = JSON.parse(result.draggableId)
+        let { source, destination } = result
+        if (!destination || source.index === destination.index && source.droppableId === destination.droppableId) {
+            return;
+        } else {
+            dispatch(updateStatusApi({
+                "taskId": taskId,
+                "statusId": destination.droppableId,
+            }))
+        }
+    }
     useEffect(() => {
-        form.setFieldsValue(taskDetail)
+        if (taskDetail) {
+            form.setFieldsValue(taskDetail)
+            setDescription(taskDetail.description)
+        }
         dispatch(getAllStatusApi())
         dispatch(getProjectDetailApi(id))
         dispatch(getUserByProjectIdApi(id))
-    }, [id])
+    }, [id, taskDetail])
 
  let [state,setState]= useState({
     values: {
@@ -98,6 +114,7 @@ const ProjectBoard = () => {
     return (
         <div className='container drag-task'>
             <div className='mt-3 mb-2'>
+
                 <div>
                     Projects / Project name
                 </div>
@@ -110,7 +127,7 @@ const ProjectBoard = () => {
                             <div className='col-8 d-flex align-items-center'>
                                 <span className='me-3'>Member</span>
                                 {
-                                    arrUserByProjectId?.map((item, index) => {
+                                    detailProject && detailProject.members?.map((item, index) => {
                                         const content = (
                                             <div>
                                                 {item.name}
@@ -217,8 +234,94 @@ const ProjectBoard = () => {
                                                                         </Avatar>
                                                                     </Popover>
                                                                 </div>
-                                                            })}
-                                                        </div>
+                                                            </li>
+                                                        }}
+
+                                                    </Draggable>
+                                                })}
+                                            </ul>
+                                            {provided.placeholder}
+                                        </div>
+                                    </div>
+                                }}
+
+                            </Droppable>
+                        })}
+                    </DragDropContext>
+                </Row>
+                <Form form={form}>
+                    <Modal width={1000}
+                        title={
+                            // taskTypeDetail: {id: number, taskType: string}
+                            <Form.Item name='taskTypeDetail'>
+                                <Select
+                                    onChange={(value) => {
+                                        console.log(value)
+                                    }}
+                                    style={{ width: 90 }}
+                                    // arrTaskType: [{id: number, taskType: string}]
+                                    options={arrTaskType?.map((item) => {
+                                        form.setFieldsValue({
+                                            taskTypeDetail: item.id
+                                        })
+                                        return { label: item.taskType, value: item.id }
+                                    })} />
+                            </Form.Item>} open={isModalDetailProjectOpen} onOk={handleOk} onCancel={handleCancel}>
+                        <Row gutter={[12, 12]} className="mt-3">
+                            <Col span={12}>
+                                <div className='me-2'>
+                                    <h2 className='text-dark' style={{ fontWeight: '600' }}>{taskDetail.taskName}</h2>
+                                    <div className='form-Description'>
+                                        <label>Description</label>
+                                        <Form.Item name="description">
+                                            <CKEditor
+                                                editor={Editor}
+                                                data={desscription}
+                                                onBlur={(event, editor) => {
+                                                    const data = editor.getData()
+                                                    form.setFieldsValue({
+                                                        description: data
+                                                    });
+                                                }}
+                                            />
+                                        </Form.Item>
+                                    </div>
+                                    <div className='form-Comment'>
+                                        <label>Comment</label>
+                                        <CKEditor
+                                            editor={Editor}
+                                            data={desscription}
+                                            onBlur={(event, editor) => {
+                                                const data = editor.getData()
+                                                form.setFieldsValue({
+                                                    description: data
+                                                });
+                                            }}
+                                        />
+                                    </div>
+                                </div>
+                            </Col>
+                            <Col span={12}>
+                                <div className='p-1'>
+                                    <Select options={arrStatus?.map((item) => {
+                                        form.setFieldsValue({
+                                            statusId: taskDetail.id
+                                        })
+                                        return { label: item.statusName, value: item.id }
+                                    })} style={{ width: '200px' }}></Select>
+                                    <div className='card mt-4'>
+                                        <div className='card-header'>
+                                            Details
+                                        </div>
+                                        <div className='card-body px-3'>
+                                            <Form.Item name='assignees'>
+                                                <Input />
+                                            </Form.Item>
+                                            <div className="assignees d-flex justify-content-between align-items-center">
+                                                <h6>ASSIGNEES</h6>
+                                                <div className="row">
+                                                    <div className="col-6 mt-2 mb-2">
+                                                        <Select style={{ width: '200px' }}> </Select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -470,7 +573,7 @@ const ProjectBoard = () => {
                     </Row>
                 </Modal>
             </div>
-        </div>
+        </div >
     )
 }
 
