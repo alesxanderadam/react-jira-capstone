@@ -69,13 +69,6 @@ const taskReducer = createSlice({
 });
 
 export const { getStatusAction, getPriorityAction, getTaskTypeAction, getUserByProjectIdAction, createTaskAction, getTaskDetailByIdAction, updatetaskAction, updateStatusAction, updateDescriptionAction, updatePriorityAction, updateTimeTrackingAction, updateEstimateAction, delTaskAction} = taskReducer.actions
-        updateStatusAction: (state, action) => {
-            state = action.payload
-        }
-    }
-});
-
-export const { getStatusAction, getPriorityAction, getTaskTypeAction, getUserByProjectIdAction, createTaskAction, getTaskDetailByIdAction, updateStatusAction } = taskReducer.actions
 
 export default taskReducer.reducer
 
@@ -229,13 +222,6 @@ export const delTaskApi = (id) => {
         }
         catch (err) {
             return;
-export const updateStatusApi = (taskId) => {
-    return async dispatch => {
-        try {
-            const result = await http.put('/api/Project/updateStatus', taskId)
-            dispatch(updateStatusAction(result.data.content))
-        } catch (err) {
-            message.error(err.response.data.message)
         }
     }
 }
