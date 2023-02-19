@@ -8,10 +8,10 @@ import Register from './Pages/Register/Register';
 import ProjectAdd from './Pages/Project/Project-add';
 import ProjectEdit from './Pages/Project/Project-edit';
 import { ACCESS_TOKEN, settings } from './util/config';
-import Profile from './Pages/Profile/Profile';
 import ProjectBoard from './Pages/Project/Project-Board';
 import UserEdit from './Pages/Users/Users-edit';
 import Users from './Pages/Users/Users';
+import Profile from './Pages/Profile/profile';
 
 
 
