@@ -19,7 +19,7 @@ const CreateTask = () => {
             description: '',
             statusId: '',
             originalEstimate: 1,
-            timeTrackingSpent: 1,
+            timeTrackingSpent:1,
             timeTrackingRemaining: 1,
             projectId: '0',
             typeId: 1,
@@ -51,7 +51,7 @@ const CreateTask = () => {
             newError[name] = '';
         }
 
-
+        newValue['timeTrackingRemaining'] = newValue['originalEstimate']-newValue['timeTrackingSpent']
         setState({
             ...state,
             value: newValue,
@@ -68,7 +68,7 @@ const CreateTask = () => {
             ...state,
             value: newValue
         })
-        console.log(state.value)
+        // console.log(state.value)
     }
     useEffect(() => {
         dispatch(getAllProjectApi());
@@ -179,11 +179,11 @@ const CreateTask = () => {
                                             <label className="form-element-label" htmlFor="field-be1h8i-ll2hpg-q4efzm-nfjj1e-udkw5r">Time Tracking</label>
                                             <div className="col-6">
                                                 <label className="form-element-label" htmlFor="field-be1h8i-ll2hpg-q4efzm-nfjj1e-udkw5r">Total Estimated Hours</label>
-                                                <input name="timeTrackingSpent" type="number" step='1' min="0" max="100" className="ant-input form-control" ></input>
+                                                <input name="originalEstimate" type="number" step='1' min="0" max="100" className="ant-input form-control" ></input>
                                             </div>
                                             <div className="col-6">
                                                 <label className="form-element-label" htmlFor="field-be1h8i-ll2hpg-q4efzm-nfjj1e-udkw5r form-label">Hours spent</label>
-                                                <input name="timeTrackingRemaining" type="number" step='1' min="0" max="100" className="form-control" defaultValue={0} ></input>
+                                                <input name="timeTrackingSpent" type="number" step='1' min="0" max="100" className="form-control" defaultValue={0} ></input>
                                             </div>
                                         </div>
                                         <div className="w-full">
@@ -194,9 +194,9 @@ const CreateTask = () => {
                                                 <div tabIndex={0} className="ant-slider-handle" role="slider" aria-valuemin={0} aria-valuemax={5} aria-valuenow={5} aria-disabled="false" style={{ right: 'auto', transform: 'translateX(-50%)', left: '100%' }} />
                                                 <div className="ant-slider-mark" />
                                             </div>
-                                            <div className="d-flex justify-between mb-3">
-                                                <div className="text-left  fw">{state.value.timeTrackingSpent} hour(s) spent </div>
-                                                <div className="text-left  font-bold"> {state.value.timeTrackingRemaining} hour(s) remaining</div>
+                                            <div className="justify-between mb-3">
+                                                <div className="text-start  fw">{state.value.timeTrackingSpent} hour(s) spent </div>
+                                                <div className="text-end  font-bold"> {state.value.originalEstimate - state.value.timeTrackingSpent} hour(s) remaining</div>
                                             </div>
                                         </div>
                                         <div>

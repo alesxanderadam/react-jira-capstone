@@ -1,34 +1,41 @@
-import { AutoComplete, Avatar, Button, Popover, Row, Modal, Select, Col, Form, Input } from 'antd'
-import React, { useEffect, useState } from 'react'
+import { AutoComplete, Avatar, Button, Popover, Row, Modal, Col, Form, Input,Collapse,Select, InputNumber, message } from 'antd'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import Editor from 'ckeditor5-custom-build/build/ckeditor';
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import { addUserToProjectApi, getProjectDetailApi } from '../../redux/reducers/projectReducer'
 import { getAllUserApi } from '../../redux/reducers/userReducer'
-import { getAllStatusApi, getTaskDetailByIdApi, getUserByProjectIdApi } from '../../redux/reducers/taskReducer'
+import { delTaskAction, delTaskApi, getAllStatusApi, getTaskDetailByIdApi, getUserByProjectIdApi, updateDescriptionApi, updateEstimateApi, updatePriorityApi, updateStatusApi, updateTasskApi, updateTimeTrackingApi } from '../../redux/reducers/taskReducer'
 import _ from 'lodash'
 import '../../assets/scss/drag-drop.scss'
-
+import { Editor } from '@tinymce/tinymce-react';
+import { CheckOutlined, CloseOutlined, DeleteOutlined } from '@ant-design/icons'
+const { Panel } = Collapse;
 const ProjectBoard = () => {
+    const editorRef = useRef(null);
     const dispatch = useDispatch()
     const { id } = useParams()
     const [value, setValue] = useState('');
     const [desscription, setDescription] = useState('')
     const { AllUsers } = useSelector(state => state.userReducer)
     const { detailProject } = useSelector(state => state.projectReducer)
-    const { arrUserByProjectId, arrTaskType, taskDetail, arrStatus } = useSelector(state => state.taskReducer)
+    const { arrUserByProjectId, arrTaskType, taskDetail, arrStatus, arrPriority } = useSelector(state => state.taskReducer)
     const [isModalDetailProjectOpen, setModalDetailProjectOpen] = useState(false);
     const [form] = Form.useForm()
+    const [showDeleteTaskModal, setShowDeleteTaskModal] = useState(false);
     const showModal = () => {
         setModalDetailProjectOpen(true);
     };
     const handleOk = () => {
         setModalDetailProjectOpen(false);
+        dispatch(updateTasskApi(state.values))
+        dispatch(getProjectDetailApi(id))
     };
     const handleCancel = () => {
         setModalDetailProjectOpen(false);
+        dispatch(getProjectDetailApi(id))
+
     };
     useEffect(() => {
         form.setFieldsValue(taskDetail)
@@ -37,6 +44,56 @@ const ProjectBoard = () => {
         dispatch(getUserByProjectIdApi(id))
     }, [id])
 
+ let [state,setState]= useState({
+    values: {
+        listUserAsign:[],
+        taskId: '',
+        taskName: '',
+        description: '',
+        statusId: '',
+        originalEstimate: '',
+        timeTrackingSpent: '',
+        timeTrackingRemaining: '',
+        projectId: id,
+        typeId:'',
+        priorityId: ''
+    },
+    updateStatus:{
+        taskId: '',
+        statusId: ''
+    },
+    updatePriority:{
+        taskId: '',
+        priorityId: ''
+    },
+    updateDescription:{
+        taskId: '',
+        description: ''
+    },
+    updateTimeTracking: {
+        taskId: '',
+        timeTrackingSpent: '',
+        timeTrackingRemaining: ''
+    },
+    updateEstimate: {
+        taskId: '',
+        originalEstimate: ''
+      },
+      userChoice:[]
+ })
+ const handleChange=(e)=>{
+    let { value, name } = e.target;
+    let newValue={...state.values,[name]:value}
+    for (let i = 0; i < state.userChoice.length; i++) {
+        newValue['listUserAsign'][i]=(state.userChoice[i]);
+    }
+    setState({
+        ...state,
+        values:newValue
+    })
+    console.log(state.values)
+ }
+ 
 
     return (
         <div className='container drag-task'>
@@ -115,6 +172,35 @@ const ProjectBoard = () => {
                                             onClick={() => {
                                                 dispatch(getTaskDetailByIdApi(task.taskId))
                                                 showModal()
+                                                let lissAsign=[]
+                                                for (let i = 0; i <task.assigness.length; i++) {
+                                                    
+                                                    lissAsign[i]=(task.assigness[i].id);
+                                                }
+                                                setState({
+                                                    ...state,
+                                                    values:{...state.values,
+                                                        ['listUserAsign']:lissAsign,
+                                                    ['taskId']:task.taskId,
+                                                    ['taskName']:task.taskName,
+                                                    ['description']:task.description,
+                                                    ['statusId']:task.statusId,
+                                                    ['originalEstimate']:task.originalEstimate,
+                                                    ['timeTrackingSpent']:task.timeTrackingSpent,
+                                                    ['timeTrackingRemaining']:task.timeTrackingRemaining,
+                                                    ['projectId']:task.projectId,
+                                                    ['typeId']:task.taskTypeDetail?.id,
+                                                    ['priorityId']:task.priorityTask?.priorityId
+                                                },
+                                                    updateEstimate:{...state.updateEstimate,
+                                                        ['taskId']:task.taskId,
+                                                        ['originalEstimate']:task.originalEstimate},
+                                                    updateTimeTracking:{...state.updateTimeTracking,
+                                                        ['taskId']:task.taskId,
+                                                        ['timeTrackingSpent']:task.timeTrackingSpent,
+                                                        ['timeTrackingRemaining']:task.timeTrackingRemaining}
+                                                    
+                                                })
                                             }}>
                                             <p style={{ fontWeight: 'bold' }}>{task.taskName}</p>
                                             <div className='block d-flex justify-content-between align-items-center'>
@@ -143,27 +229,107 @@ const ProjectBoard = () => {
                         </div>
                     })}
                 </Row>
-                <Modal width={1000} title={<Select value={taskDetail.id} style={{ width: 90 }} options={arrTaskType?.map((item) => {
-                    return { label: item.taskType, value: item.id }
-                })} />} open={isModalDetailProjectOpen} onOk={handleOk} onCancel={handleCancel}>
+                <Modal width={1000} 
+                    maskClosable={false}
+                    closable={false}
+                    keyboard={false}
+                    open={isModalDetailProjectOpen} 
+                    onOk={handleOk} 
+                    onCancel={handleCancel}>
+                    <div className="d-flex justify-content-between">
+                        <div>
+                            <select name='typeId' style={{ width: 120 }} className="form-select mb-1 hover:bg-gray-100 rounded hover:shadow" onChange={handleChange}>
+                                {arrTaskType?.map((item)=>{
+                                    if(taskDetail.taskTypeDetail?.id==item.id){
+                                        return <option selected key={item.id} value={item.id}>{item.taskType}</option>}
+                                    return <option key={item.id} value={item.id}>{item.taskType}</option>
+                                })}
+                            </select>
+                        </div>
+                        <div>
+                            <Button
+                                htmlType="button"
+                                icon={<DeleteOutlined />}
+                                className="w-8 h-8 hover:bg-gray-100 hover:text-black focus:text-black border-0 p-0 shadow-none hover:shadow rounded mr-1"
+                                onClick={()=>{
+                                    alert("Delete this task")
+                                    dispatch(delTaskApi(taskDetail?.taskId))
+                                    handleCancel()
+                                    dispatch(getProjectDetailApi(id))
+                                    
+                                }}
+                            />
+                            <Button
+                                htmlType="button"
+                                icon={<CloseOutlined />}
+                                className="w-8 h-8 hover:bg-gray-100 hover:text-black focus:text-black border-0 p-0 shadow-none hover:shadow rounded"
+                                onClick={handleCancel}
+                            />
+                        </div>
+                    </div>
+                    
                     <Row gutter={[12, 12]} className="mt-3">
                         <Col span={12}>
                             <div className='me-2'>
-                                <h2 className='text-dark' style={{ fontWeight: '600' }}>{taskDetail.taskName}</h2>
-                                <div className='form-Description'>
-                                    <label>Description</label>
-                                    <p className='pt-2'>{taskDetail.description}</p>
-                                </div>
+                                <input className='text-dark form-control' style={{ fontWeight: '600' }} value={state.values.taskName} name="taskName" onChange={handleChange}/>
+                                <Collapse ghost className='form-Description p-0'>
+                                    <Panel header='Description' className='p-0'>
+                                    <span className="fa-solid fa-check text-end d-block " style={{cursor:'pointer'}} onClick={()=>{
+                                        dispatch(updateDescriptionApi(state.updateDescription))
+                                        dispatch(getTaskDetailByIdApi(taskDetail?.taskId))
+                                    }}></span>
+                                    <Editor
+                                        name='description'
+                                        onEditorChange={(content, editor)=>{
+                                            let name = 'description'
+                                            let newValue = { ...state.updateDescription }
+
+                                            newValue = { ...newValue, [name]: content,['taskId']:taskDetail?.taskId}
+                                            setState({
+                                                ...state,
+                                                updateDescription: newValue
+                                            })
+                                        }}
+                                        apiKey='gzd8t3qd2hvhzh2yzg4gerpdggkgeqc4rwl9qsi3s4e4zq6s'
+                                        onInit={(evt, editor) => editorRef.current = editor}
+                                        initialValue={taskDetail.description}
+                                        init={{
+                                            height: 200,
+                                            menubar: false,
+                                            plugins: [
+                                                'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+                                                'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                                                'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
+                                            ],
+                                            toolbar: 'undo redo | blocks | ' +
+                                                'bold italic forecolor | alignleft aligncenter ' +
+                                                'alignright alignjustify | bullist numlist outdent indent | ' +
+                                                'removeformat | help',
+                                            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                                        }}
+                                    />
+                                    </Panel>
+                                </Collapse>
                                 <div className='form-Comment'>
                                     <label>Comment</label>
-                                    <CKEditor
-                                        editor={Editor}
-                                        data={desscription}
-                                        onBlur={(event, editor) => {
-                                            const data = editor.getData()
-                                            form.setFieldsValue({
-                                                description: data
-                                            });
+                                    <Editor
+                                        name='Comment'
+                                        apiKey='gzd8t3qd2hvhzh2yzg4gerpdggkgeqc4rwl9qsi3s4e4zq6s'
+                                        onInit={(evt, editor) => editorRef.current = editor}
+                                        initialValue="<p></p>"
+                                        init={{
+                                            height: 200,
+                                            menubar: false,
+                                            plugins: [
+                                                'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+                                                'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                                                'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
+                                            ],
+                                            toolbar: 'undo redo | blocks | ' +
+                                                'bold italic forecolor | alignleft aligncenter ' +
+                                                'alignright alignjustify | bullist numlist outdent indent | ' +
+                                                'removeformat | help',
+                                            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
                                         }}
                                     />
                                 </div>
@@ -171,54 +337,134 @@ const ProjectBoard = () => {
                         </Col>
                         <Col span={12}>
                             <div className='p-1'>
-                                <Select options={arrStatus?.map((item) => {
-                                    form.setFieldsValue({
-                                        statusId: taskDetail.id
-                                    })
-                                    return { label: item.statusName, value: item.id }
-                                })} style={{ width: '200px' }}></Select>
-                                <div className='card mt-4'>
-                                    <div className='card-header'>
-                                        Details
-                                    </div>
+                            <select name='statusId' style={{ width: 240 ,float:'left'}} className="form-select" onMouseLeave={(e)=>{
+                                let { value, name } = e.target;
+                                let newValue={...state.updateStatus,['taskId']:taskDetail?.taskId,[name]:value}
+                                setState({
+                                    ...state,
+                                    updateStatus:newValue
+                                })
+                            }} >
+                                {arrStatus.map((item)=>{
+                                    if(taskDetail?.statusId==item.statusId){
+                                        return <option selected key={item.statusId} value={item.statusId}>{item.statusName}</option>
+                                    }
+                                    return <option key={item.statusId} value={item.statusId}>{item.statusName}</option>
+                                })}
+                                
+                            </select>
+                            <span className="fa-solid fa-check mx-2 text-success
+                            " style={{lineHeight:'45px',cursor:'pointer'}} onClick={()=>{
+                                dispatch(updateStatusApi(state.updateStatus))
+                                dispatch(getProjectDetailApi(taskDetail?.projectId))
+                                dispatch(getTaskDetailByIdApi(taskDetail?.taskId))
+                            }}></span>
+                                <Collapse className='card mt-4'>
+                                    <Panel header='Detail'>
                                     <div className='card-body px-3'>
-                                        <Form.Item name='assignees'>
-                                            <Input />
-                                        </Form.Item>
                                         <div className="assignees d-flex justify-content-between align-items-center">
                                             <h6>ASSIGNEES</h6>
-                                            <div className="row">
                                                 <div className="col-6 mt-2 mb-2">
-                                                    <Select style={{ width: '200px' }}> </Select>
+                                                    <Select style={{width:200}}
+                                                        mode="multiple"
+                                                        allowClear
+                                                        name="listUserAsign"
+                                                        className="react-select"
+                                                        options={arrUserByProjectId?.map((itemm)=>{
+                                                            return {label: itemm.name,value:itemm.userId}
+                                                        })}
+                                                        defaultValue={taskDetail.assigness?.map((item)=>{
+                                                            return {label:item.name,value:item.id}
+                                                        })}
+                                                        onChange={(choice) => {
+                                                            setState({
+                                                                ...state,
+                                                                userChoice: choice
+                                                            })
+                                                        }}
+                                                    />
                                                 </div>
-                                            </div>
                                         </div>
                                         <div className="assignees d-flex justify-content-between align-items-center">
                                             <h6>Priority</h6>
-                                            <div className="row">
-                                                <div className="col-6 mt-2 mb-2">
-                                                    <Select style={{ width: '200px' }}> </Select>
+                                                <div className=" mt-2 mb-2">
+                                                    <select name='priorityId' className="form-select" style={{width:200, float:'left'}} onMouseLeave={(e)=>{
+                                                        let { value, name } = e.target;
+                                                        let newValue={...state.updatePriority,['taskId']:taskDetail?.taskId,[name]:value}
+                                                        setState({
+                                                            ...state,
+                                                            updatePriority:newValue
+                                                        })
+                                                    }}>
+                                                        {arrPriority?.map((item)=>{
+                                                            if(taskDetail.priorityId==item.priorityId){
+                                                                return <option selected key={item.priorityId} value={item.priorityId}>{item.priority}</option>
+                                                            }
+                                                            return <option key={item.priorityId} value={item.priorityId}>{item.priority}</option>
+                                                        })}
+                                                    </select>
+                                                    <span  className="fa-solid fa-check mx-2 text-success" 
+                                                            style={{lineHeight:'45px',cursor:'pointer'}} onClick={()=>{
+                                                            dispatch(updatePriorityApi(state.updatePriority))
+                                                            dispatch(getProjectDetailApi(taskDetail?.projectId))
+                                                            dispatch(getTaskDetailByIdApi(taskDetail?.taskId))
+                                                        }}></span>
+
                                                 </div>
-                                            </div>
                                         </div>
                                         <div className="assignees d-flex justify-content-between align-items-center">
                                             <h6>Estimate</h6>
                                             <div className="row">
                                                 <div className="col-6 mt-2 mb-2">
-                                                    <Select style={{ width: '200px' }}> </Select>
+                                                    <input id='originalEstimate' name="originalEstimate" type='number' step='1' min="0" max="100" className="ant-input form-control" value={state.updateEstimate.originalEstimate} style={{width:200}}  onChange={(e)=>{
+                                                        let { value, name } = e.target;
+                                                        let newValue={...state.updateEstimate,['taskId']:taskDetail?.taskId,[name]:value}
+                                                        setState({
+                                                            ...state,
+                                                            updateEstimate:newValue
+                                                        })
+                                                    }}/>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="assignees d-flex justify-content-between align-items-center">
-                                            <h6>Estimate</h6>
-                                            <div className="row">
-                                                <div className="col-6 mt-2 mb-2">
-                                                    <Select style={{ width: '200px' }}> </Select>
+                                        <div className="assignees ">
+                                                <div className="row">
+                                                    <div className="d-flex justify-content-between">
+                                                        <h4>Time</h4>
+                                                        <span  className="fa-solid fa-check mx-2 text-success text-end" 
+                                                                style={{lineHeight:'45px',cursor:'pointer'}} onClick={()=>{
+                                                                dispatch(updateTimeTrackingApi(state.updateTimeTracking))
+                                                                dispatch(getTaskDetailByIdApi(taskDetail?.taskId))
+                                                        }}></span>
+                                                    </div>
+                                                    <div className="col-6">
+                                                        <h6>Time spent</h6>
+                                                       
+                                                        <input  id='timeTrackingSpent' name="timeTrackingSpent" type='number' step='1' min="0" max="100" className="ant-input form-control" value={state.updateTimeTracking.timeTrackingSpent} style={{width:200}}  onChange={(e)=>{
+                                                            let { value, name } = e.target;
+                                                            let newValue={...state.updateTimeTracking,['taskId']:taskDetail?.taskId,[name]:value}
+                                                            setState({
+                                                                ...state,
+                                                                updateTimeTracking:newValue
+                                                            })
+                                                        }}/>
+                                                    </div>
+                                                    <div className="col-6">
+                                                        <h6>Time remaining</h6>
+                                                        <input id='timeTrackingRemaining' name="timeTrackingRemaining" type='number' step='1' min="0" max="100" className="ant-input form-control" value={state.updateTimeTracking.timeTrackingRemaining} style={{width:200}}  onChange={(e)=>{
+                                                            let { value, name } = e.target;
+                                                            let newValue={...state.updateTimeTracking,['taskId']:taskDetail?.taskId,[name]:value}
+                                                            setState({
+                                                                ...state,
+                                                                updateTimeTracking:newValue
+                                                            })
+                                                        }}/>
+                                                    </div>
                                                 </div>
-                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                    </Panel>
+                                </Collapse>
                             </div>
                         </Col>
                     </Row>
