@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import { addUserToProjectApi, getProjectDetailApi } from '../../redux/reducers/projectReducer'
 import { getAllUserApi } from '../../redux/reducers/userReducer'
-import { delTaskAction, delTaskApi, getAllStatusApi, getTaskDetailByIdApi, getUserByProjectIdApi, updateDescriptionApi, updateEstimateApi, updatePriorityApi, updateStatusApi, updateTasskApi, updateTimeTrackingApi } from '../../redux/reducers/taskReducer'
+import { delTaskAction, delTaskApi, getAllStatusApi, getPriorityApi, getTaskDetailByIdApi, getTaskTypeApi, getUserByProjectIdApi, updateDescriptionApi, updateEstimateApi, updatePriorityApi, updateStatusApi, updateTasskApi, updateTimeTrackingApi } from '../../redux/reducers/taskReducer'
 import _ from 'lodash'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import '../../assets/scss/drag-drop.scss'
@@ -55,6 +55,8 @@ const ProjectBoard = () => {
             form.setFieldsValue(taskDetail)
             setDescription(taskDetail.description)
         }
+        dispatch(getTaskTypeApi())
+        dispatch(getPriorityApi())
         dispatch(getAllStatusApi())
         dispatch(getProjectDetailApi(id))
         dispatch(getUserByProjectIdApi(id))
@@ -451,8 +453,7 @@ const ProjectBoard = () => {
                                                 </div>
                                                 <div className="assignees d-flex justify-content-between align-items-center">
                                                     <h6>Estimate</h6>
-                                                    <div className="row">
-                                                        <div className="col-6 mt-2 mb-2">
+                                                        <div className="d-flex mt-2 mb-2">
                                                             <input id='originalEstimate' name="originalEstimate" type='number' step='1' min="0" max="100" className="ant-input form-control" value={state.updateEstimate.originalEstimate} style={{ width: 200 }} onChange={(e) => {
                                                                 let { value, name } = e.target;
                                                                 let newValue = { ...state.updateEstimate, ['taskId']: taskDetail?.taskId, [name]: value }
@@ -461,7 +462,11 @@ const ProjectBoard = () => {
                                                                     updateEstimate: newValue
                                                                 })
                                                             }} />
-                                                        </div>
+                                                            <span className="fa-solid fa-check mx-2 text-success text-end"
+                                                                style={{ lineHeight: '45px', cursor: 'pointer' }} onClick={() => {
+                                                                    dispatch(updateEstimateApi(state.updateEstimate))
+                                                                    dispatch(getTaskDetailByIdApi(taskDetail?.taskId))
+                                                                }}></span>
                                                     </div>
                                                 </div>
                                                 <div className="assignees ">
