@@ -27,8 +27,8 @@ export default function App() {
                     <Route path={`${PageConstant.project}/new`} element={<ProjectAdd />}></Route>
                     <Route path={`${PageConstant.project}/:id/edit`} element={<ProjectEdit />}></Route>
                     <Route path={`${PageConstant.project}/:id/board`} element={<ProjectBoard />}></Route>
-                    <Route path={`${PageConstant.usermanage}`} element={<Users/>}></Route>
-                    <Route path={`${PageConstant.usermanage}/:id/edit`} element={<UserEdit/>}></Route>
+                    <Route path={`${PageConstant.usermanage}`} element={<Users />}></Route>
+                    <Route path={`${PageConstant.usermanage}/:id/edit`} element={<UserEdit />}></Route>
 
                 </Route>
                 <Route path={`${PageConstant.login}`} element={settings.getStore(ACCESS_TOKEN) ? <Project /> : <Login />} />

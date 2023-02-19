@@ -38,7 +38,7 @@ const Header = () => {
             key: '2',
             label: (
                 <div style={{ width: 200 }}>
-                    <NavLink className='navlink' style={{ textDecoration: 'none' }}>
+                    <NavLink to={PageConstant.usermanage} className='navlink' style={{ textDecoration: 'none' }}>
                         User Managerment
                     </NavLink>
                 </div>
@@ -88,7 +88,7 @@ const Header = () => {
                                     User
                                 </NavLink>
                                 <ul className="dropdown-menu">
-                                    <li><NavLink className="dropdown-item" href="#">View all user</NavLink></li>
+                                    <li><NavLink to={PageConstant.usermanage} className="dropdown-item" href="#">View all user</NavLink></li>
                                 </ul>
                             </li>
                             <li className="nav-item">

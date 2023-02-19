@@ -4,13 +4,13 @@ import App from './app';
 import { Provider } from 'react-redux'
 import { store } from './redux/config-store';
 const root = ReactDOM.createRoot(
-  document.getElementById('root')
+  document.getElementById('root') as HTMLElement
 );
 root.render(
   <Provider store={store}>
     <React.StrictMode>
       <App />
-    </React.StrictMode>
+    </React.StrictMode>s
   </Provider>
 );
 
