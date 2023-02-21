@@ -31,7 +31,6 @@ http.interceptors.response.use(
         if (error.response?.status === 401 || error.response?.status === 403) {
             const isMyTokenExpired = isExpired(settings.getStore(ACCESS_TOKEN));
             if (isMyTokenExpired) {
-                alert("Hết phiên đăng nhập yêu cầu đăng nhập lại !");
                 settings.clearStorage(ACCESS_TOKEN);
                 settings.clearStorage(USER_LOGIN);
                 window.location.href = "/login";

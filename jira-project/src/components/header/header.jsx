@@ -108,7 +108,7 @@ const Header = () => {
                                             className="shape-avatar me-1"
                                             shape="square"
                                             size={40}
-                                            src={settings.getStorageJson(USER_LOGIN).avatar}
+                                            src={settings.getStorageJson(USER_LOGIN)?.avatar}
                                         ></Avatar>
                                     </Space>
                                 </a>
