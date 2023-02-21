@@ -14,6 +14,7 @@ const HomeTemplate = () => {
             <Outlet />
             <CreateTask />
         </div>
+        
     )
 }
 

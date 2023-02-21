@@ -34,8 +34,9 @@ http.interceptors.response.use(
                 settings.clearStorage(ACCESS_TOKEN);
                 settings.clearStorage(USER_LOGIN);
                 window.location.href = "/login";
+            } else {
+                history.push("/login");
             }
-            // history.push("/login");
         }
         return Promise.reject(error)
     }
