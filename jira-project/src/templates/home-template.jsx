@@ -13,8 +13,7 @@ const HomeTemplate = () => {
             <Header />
             <Outlet />
             <CreateTask />
-        </div>
-        
+        </div>  
     )
 }
 

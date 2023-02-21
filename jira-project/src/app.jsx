@@ -1,4 +1,4 @@
-import { Route, Routes, Navigate, unstable_HistoryRouter as HistoryRouter } from 'react-router-dom'
+import { Route, Routes, unstable_HistoryRouter as HistoryRouter } from 'react-router-dom'
 import { createBrowserHistory } from 'history';
 import HomeTemplate from './templates/home-template';
 import { PageConstant } from './common/page.constant';
